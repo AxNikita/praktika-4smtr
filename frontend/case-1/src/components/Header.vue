@@ -2,7 +2,7 @@
 	<header class="flex justify-between items-center px-10 py-6 bg-gray-400 h-20">
 		<div class="cursor-pointer">
 			<RouterLink class="hover:underline text-2xl" to="/">
-				Case 1
+				Logotype
 			</RouterLink>
 		</div>
 

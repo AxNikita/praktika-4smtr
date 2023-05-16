@@ -4,7 +4,7 @@ import Header from '@/components/Header.vue';
 </script>
 
 <template>
-  <div class="bg-gray-100 h-screen">
+  <div class="bg-gray-200 h-screen">
     <Header />
 
     <RouterView />

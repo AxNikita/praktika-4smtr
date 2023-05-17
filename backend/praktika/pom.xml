@@ -11,12 +11,8 @@
 	<groupId>ru.axnikita</groupId>
 	<artifactId>praktika</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<packaging>pom</packaging>
 	<name>praktika</name>
 	<description>Project for praktika 4 semester</description>
-<!--	<modules>-->
-<!--		<module>praktika-4smtr</module>-->
-<!--	</modules>-->
 	<properties>
 		<java.version>20</java.version>
 	</properties>
@@ -45,11 +41,11 @@
 			<artifactId>h2</artifactId>
 			<scope>runtime</scope>
 		</dependency>
-		<dependency>
-			<groupId>org.postgresql</groupId>
-			<artifactId>postgresql</artifactId>
-			<scope>runtime</scope>
-		</dependency>
+<!--		<dependency>-->
+<!--			<groupId>org.postgresql</groupId>-->
+<!--			<artifactId>postgresql</artifactId>-->
+<!--			<scope>runtime</scope>-->
+<!--		</dependency>-->
 		<dependency>
 			<groupId>org.projectlombok</groupId>
 			<artifactId>lombok</artifactId>

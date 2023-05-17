@@ -1,5 +1,5 @@
 <template>
-	<article class="p-5 bg-slate-50 shadow-md">
+	<Wrapper>
 		<h2 class="text-xl mb-2">
 			{{ title }}
 		</h2>
@@ -14,12 +14,13 @@
 				Читать далее
 			</RouterLink>
 		</div>
-	</article>
+	</Wrapper>
 </template>
 
 <script setup>
 import { defineProps } from 'vue';
 import { RouterLink } from 'vue-router';
+import Wrapper from '@/components/Wrapper.vue';
 
 defineProps(['title', 'descr', 'postId']);
 </script>

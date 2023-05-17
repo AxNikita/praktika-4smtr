@@ -1,15 +1,16 @@
 <template>
-	<div class="p-5 bg-slate-50 shadow-md">
+	<Wrapper>
 		<h1 class="text-2xl"> {{ propsData.title }} </h1>
 		<div class="w-full h-0.5 bg-gray-600 mt-1.5" />
 
 		<p class="mt-2.5">
 			{{ propsData.text }}
 		</p>
-	</div>
+	</Wrapper>
 </template>
 
 <script setup>
+import Wrapper from '@/components/Wrapper.vue';
 import { ref } from 'vue';
 
 const propsData = ref({

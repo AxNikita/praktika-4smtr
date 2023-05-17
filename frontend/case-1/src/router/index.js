@@ -23,6 +23,11 @@ const router = createRouter({
       name: 'user',
       component: () => import('../views/UserView.vue')
     },
+    {
+      path: '/create-post',
+      name: 'createPost',
+      component: () => import('../views/CreatePostView.vue')
+    },
   ]
 });
 

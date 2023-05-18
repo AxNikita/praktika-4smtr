@@ -4,7 +4,7 @@ import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ru.axnikita.praktika.model.User;
-import ru.axnikita.praktika.model.UserEntity;
+import ru.axnikita.praktika.entity.UserEntity;
 import ru.axnikita.praktika.repository.UserRepository;
 
 import java.util.List;

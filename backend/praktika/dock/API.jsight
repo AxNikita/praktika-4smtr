@@ -69,10 +69,10 @@ DELETE /post             // Метод удаление поста
 
 
 GET /post              // Метод получения постов
-  Query "login=user_login"
-  {
-    "login": "user_login" // {type: "string"}
-  }
+//  Query "login=user_login"
+//  {
+//    "login": "user_login" // {type: "string"}
+//  }
   Request @post_filter
   200 @posts           // посты получены корректно
   500 empty            // Ошибка получения постов
@@ -81,10 +81,9 @@ GET /post              // Метод получения постов
 #---------------------- /Comments -----------------------
 
 POST /comment             // Метод создания комментария
-  Query "login=user_login&postId=post_id"
+  Query "login=user_login
   {
-    "login": "user_login", // {type: "string"}
-    "postId": "post_id" // {type: "string"}
+    "login": "user_login" // {type: "string"}
   }
   Request @comment
   200 empty                // Комментарий создан корректно
@@ -132,7 +131,7 @@ TYPE @post // Модель поста
 TYPE @post_filter // Модель фильтра для получения постов
 {
   "isPublic": "true/false",
-  "tags": "{[tag1, tag2]}"
+//  "tags": "{[tag1, tag2]}"   // решил пока фильтровать не по тегам
 }
 
 // переделать
@@ -143,6 +142,7 @@ TYPE @posts // Модель списка постов
 
 TYPE @comment // Модель комментария
 {
+  "postId": "postId",
   "text": "text",
   "time": "time"
 }

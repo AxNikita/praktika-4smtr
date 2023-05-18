@@ -1,5 +1,5 @@
 <template>
-	<Wrapper>
+	<Wrapper :isSecondary="isSecondary">
 		<h2 class="text-xl mb-2">
 			{{ title }}
 		</h2>
@@ -22,7 +22,7 @@ import { defineProps } from 'vue';
 import { RouterLink } from 'vue-router';
 import Wrapper from '@/components/Wrapper.vue';
 
-defineProps(['title', 'descr', 'postId']);
+defineProps(['title', 'descr', 'postId', 'isSecondary']);
 </script>
 
 <style scoped>

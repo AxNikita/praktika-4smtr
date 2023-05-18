@@ -29,7 +29,7 @@
 					:title="post.title"
 					:descr="post.descr"
 					:postId="post.id"
-					class="bg-slate-200"
+					:isSecondary="true"
 				/>
 			</section>
 		</Wrapper>

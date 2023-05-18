@@ -1,6 +1,6 @@
 <template>
 	<div class="flex gap-6">
-		<Wrapper class="w-1/4">
+		<Wrapper class="w-1/4 max-h-80">
 			<h3 class="text-xl text-center">Ваш профиль</h3>
 
 			<div class="mt-4 mb-0 mx-auto w-32 h-32 bg-slate-800 rounded-full"></div>
@@ -12,7 +12,15 @@
 			</div>
 		</Wrapper>
 		<Wrapper class="w-3/4">
-			<h3 class="text-xl text-center mb-4">Ваши посты</h3>
+			<div class="flex justify-between mb-4">
+				<h3 class="text-xl">Ваши посты</h3>
+				<button
+					class="bg-gray-300 px-4 hover:bg-gray-400 shadow-md"
+					@click="createPost"
+				>
+					Добавить пост
+				</button>
+			</div>
 
 			<section class="flex flex-col gap-6">
 				<Post
@@ -30,6 +38,7 @@
 
 <script setup>
 import { ref } from 'vue';
+import router from '@/router/index.js';
 import Wrapper from '@/components/Wrapper.vue';
 import Post from '@/components/Post.vue';
 
@@ -50,4 +59,8 @@ const posts = ref([
 		descr: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Laboriosam, aperiam. Nisi repellendus hic minus, perspiciatis debitis quod laudantium animi accusantium?'
 	}
 ]);
+
+function createPost() {
+	router.push('/create-post');
+}
 </script>

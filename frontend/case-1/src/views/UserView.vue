@@ -3,7 +3,7 @@
 		<Wrapper class="w-1/4 max-h-80">
 			<h3 class="text-xl text-center">login</h3>
 
-			<div class="mt-4 mb-0 mx-auto w-32 h-32 bg-slate-800 rounded-full"></div>
+			<Avatar :username="'Simple Name'" />
 
 			<div class="flex flex-col mt-4">
 				<span>Количество подписчиков: </span>
@@ -35,6 +35,7 @@
 
 <script setup>
 import { ref } from 'vue';
+import Avatar from '@/components/Avatar.vue';
 import Wrapper from '@/components/Wrapper.vue';
 import Post from '@/components/Post.vue';
 

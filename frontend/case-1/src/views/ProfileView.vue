@@ -3,7 +3,7 @@
 		<Wrapper class="w-1/4 max-h-80">
 			<h3 class="text-xl text-center">Ваш профиль</h3>
 
-			<div class="mt-4 mb-0 mx-auto w-32 h-32 bg-slate-800 rounded-full"></div>
+			<Avatar :username="'Aimple Name'" />
 
 			<div class="flex flex-col mt-4">
 				<span>Ваш логин: </span>
@@ -39,6 +39,7 @@
 <script setup>
 import { ref } from 'vue';
 import router from '@/router/index.js';
+import Avatar from '@/components/Avatar.vue';
 import Wrapper from '@/components/Wrapper.vue';
 import Post from '@/components/Post.vue';
 

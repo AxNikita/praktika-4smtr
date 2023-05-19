@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import ru.axnikita.praktika.model.Auth;
-import ru.axnikita.praktika.model.UserEntity;
+import ru.axnikita.praktika.entity.UserEntity;
 import ru.axnikita.praktika.repository.UserRepository;
 
 import java.util.List;

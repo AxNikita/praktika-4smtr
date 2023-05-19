@@ -2,7 +2,7 @@ package ru.axnikita.praktika.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
-import ru.axnikita.praktika.model.UserEntity;
+import ru.axnikita.praktika.entity.UserEntity;
 
 public interface UserRepository extends JpaRepository<UserEntity, Long> {
 

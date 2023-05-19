@@ -33,6 +33,17 @@
 			</div>
 
 			<div>
+				<h3 class="text-lg mb-1">Теги:</h3>
+				<div class="flex">
+					<input
+						v-model="title"
+						class="text-lg border-2 border-gray-700 px-2 py-1 w-80"
+						type="text"
+					/>
+				</div>
+			</div>
+
+			<div>
 				<label for="visible" class="flex items-center gap-2">
 					<input type="checkbox" id="visible" />
 					<span class="select-none">Ограниченный доступ</span>

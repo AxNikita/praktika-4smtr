@@ -8,20 +8,37 @@
 
 		<nav class="flex items-center">
 			<div class="flex items-center h-20 hover:bg-gray-300 transition-colors cursor-pointer">
-				<RouterLink class="text-lg px-3" to="/profile">
+				<RouterLink
+					v-if="isAuth"
+					class="text-lg px-3"
+					to="/profile"
+				>
 					Профиль
 				</RouterLink>
 			</div>
 
 			<div class="flex items-center h-20 hover:bg-gray-300 transition-colors cursor-pointer">
-				<button class="text-lg px-3">
+				<button
+					v-if="isAuth"
+					class="text-lg px-3"
+				>
 					Выйти
 				</button>
+				<RouterLink
+					v-else
+					class="text-lg px-3"
+					to="/login"
+				>
+					Войти
+				</RouterLink>
 			</div>
 		</nav>
 	</header>
 </template>
 
 <script setup>
-import { RouterLink } from 'vue-router'
+import { ref } from 'vue';
+import { RouterLink } from 'vue-router';
+
+const isAuth = ref(false);
 </script>

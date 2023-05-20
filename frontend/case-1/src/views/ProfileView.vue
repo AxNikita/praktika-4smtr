@@ -27,7 +27,7 @@
 					v-for="post in posts"
 					:key="post.id"
 					:title="post.title"
-					:descr="post.descr"
+					:descr="post.description"
 					:postId="post.id"
 					:isSecondary="true"
 				/>

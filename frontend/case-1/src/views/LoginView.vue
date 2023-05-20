@@ -36,7 +36,7 @@
 <script setup>
 import { ref } from 'vue';
 import axios from 'axios';
-import router from '@/router/index.js'
+import router from '@/router/index.js';
 import Wrapper from '@/components/Wrapper.vue';
 import { baseUrl } from '@/constants.js';
 
@@ -52,7 +52,7 @@ function authUser() {
 				login.value = '';
 				password.value = '';
 
-				router.push({ name: 'home' });
+				router.push('/');
 			})
 			.catch(error => {
 				if (error.response.status === 401) {

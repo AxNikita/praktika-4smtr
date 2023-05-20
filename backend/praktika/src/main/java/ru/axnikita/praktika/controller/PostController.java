@@ -3,7 +3,6 @@ package ru.axnikita.praktika.controller;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ru.axnikita.praktika.entity.PostEntity;
-import ru.axnikita.praktika.model.PostFilter;
 import ru.axnikita.praktika.repository.PostRepository;
 
 import java.util.List;
@@ -61,14 +60,22 @@ public class PostController {
     }
 
     @GetMapping("/post")
-    public ResponseEntity<List<PostEntity>> getPosts(@RequestBody PostFilter postFilter) {
+    public ResponseEntity<List<PostEntity>> getPosts(@RequestParam boolean isPublic, @RequestParam(required = false) String tag) {
 
         try {
-            List<PostEntity> postsByPublic = postRepository
+            List<PostEntity> posts;
+
+            posts = postRepository
                     .findAll()
                     .stream()
-                    .filter(entity -> String.valueOf(entity.isPublic()).equals(String.valueOf(postFilter.isPublic()))).toList();
-            return ResponseEntity.ok(postsByPublic);
+                    .filter(entity -> String.valueOf(entity.isPublic()).equals(String.valueOf(isPublic)))
+                    .toList();
+
+            if (tag == null) {
+                posts = posts.stream().filter(entity -> entity.getTags().contains(tag)).toList();
+            }
+
+            return ResponseEntity.ok(posts);
         } catch (Exception e) {
             return ResponseEntity.internalServerError().build();
         }

@@ -38,7 +38,7 @@ public class PostEntity {
     private boolean isPublic;
 
     @Column(name = "tags")
-    private List<Tag> tags;
+    private List<String> tags;
 
     public PostEntity baseOn(PostEntity entity) {
         this.id = entity.getId();

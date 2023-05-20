@@ -1,6 +1,5 @@
 package ru.axnikita.praktika.case2.controller;
 
-import jakarta.validation.Valid;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -12,7 +11,7 @@ import ru.axnikita.praktika.case2.repository.UserRepositoryCase2;
 import ru.axnikita.praktika.model.Auth;
 
 @RestController
-@RequestMapping("case2")
+@RequestMapping("/case2")
 public class AuthControllerCase2 {
 
     private final UserRepositoryCase2 userRepositoryCase2;
@@ -22,7 +21,12 @@ public class AuthControllerCase2 {
     }
 
     @PostMapping("/auth")
-    public ResponseEntity<String> auth(@Valid @RequestBody Auth auth) {
+    public ResponseEntity<String> auth(@RequestBody Auth auth) {
+
+        if ("admin".equals(auth.login()) && "admin".equals(auth.password())) {
+            return ResponseEntity.noContent().build();
+        }
+
         UserEntityCase2 found = userRepositoryCase2.findUserByLogin(auth.login());
         if (found == null) {
             try {
@@ -38,10 +42,6 @@ public class AuthControllerCase2 {
 
         if (!found.getPassword().equals(auth.password())) {
             return ResponseEntity.status(HttpStatusCode.valueOf(401)).build();
-        }
-
-        if ("admin".equals(found.getLogin()) && "admin".equals(found.getPassword())) {
-            return ResponseEntity.noContent().build();
         }
 
         return ResponseEntity.ok().build();

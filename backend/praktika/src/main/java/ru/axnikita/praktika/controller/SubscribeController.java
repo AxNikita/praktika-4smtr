@@ -34,7 +34,7 @@ public class SubscribeController {
     }
 
     @GetMapping("/subscribers")
-    public ResponseEntity<List<String>> getSubscribers(@Valid @RequestParam String login) {
+    public ResponseEntity<List<String>> getSubscribers(@RequestParam String login) {
 
         try {
             UserEntity user = userRepository.findUserByLogin(login);

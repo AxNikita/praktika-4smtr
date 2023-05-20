@@ -1,13 +1,12 @@
 package ru.axnikita.praktika.controller;
 
-import jakarta.validation.Valid;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
-import ru.axnikita.praktika.model.Auth;
 import ru.axnikita.praktika.entity.UserEntity;
+import ru.axnikita.praktika.model.Auth;
 import ru.axnikita.praktika.repository.UserRepository;
 
 import java.util.List;
@@ -22,7 +21,7 @@ public class AuthController {
     }
 
     @PostMapping("/auth")
-    public ResponseEntity<String> auth(@Valid @RequestBody Auth auth) {
+    public ResponseEntity<String> auth(@RequestBody Auth auth) {
         UserEntity found = userRepository.findUserByLogin(auth.login());
         if (found == null) {
             try {

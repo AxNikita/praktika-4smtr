@@ -3,6 +3,7 @@ package ru.axnikita.praktika.case2.controller;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import ru.axnikita.praktika.case2.entity.BookAvailabilityCase2;
 import ru.axnikita.praktika.case2.entity.BookEntityCase2;
@@ -22,11 +23,19 @@ public class ClientControllerCase2 {
     }
 
     @GetMapping("/books")
-    public ResponseEntity<List<BookEntityCase2>> getAllBook() {
-        List<BookEntityCase2> books = bookRepository.findAll().stream()
-                .filter(book -> book.getStatus().equals(BookStatusCase2.PUBLIC))
-                .filter(book -> book.getAvailability().equals(BookAvailabilityCase2.AVAILABLE))
-                .toList();
+    public ResponseEntity<List<BookEntityCase2>> getAllBook(@RequestParam(required = false) String login) {
+
+        List<BookEntityCase2> books;
+
+        if (!login.isBlank()) {
+            books = bookRepository.findBooksByLogin(login);
+        } else {
+            books = bookRepository.findAll().stream()
+                    .filter(book -> book.getStatus().equals(BookStatusCase2.PUBLIC))
+                    .filter(book -> book.getAvailability().equals(BookAvailabilityCase2.AVAILABLE))
+                    .toList();
+        }
+
         return ResponseEntity.ok(books);
     }
 

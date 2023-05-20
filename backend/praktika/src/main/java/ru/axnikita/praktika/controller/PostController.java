@@ -75,5 +75,20 @@ public class PostController {
 
     }
 
+    @GetMapping("/user-posts")
+    public ResponseEntity<List<PostEntity>> getPostsByUser(@RequestParam String login) {
+
+        try {
+            List<PostEntity> postsByPublic = postRepository
+                    .findAll()
+                    .stream()
+                    .filter(entity -> entity.getLogin().equals(login)).toList();
+            return ResponseEntity.ok(postsByPublic);
+        } catch (Exception e) {
+            return ResponseEntity.internalServerError().build();
+        }
+
+    }
+
 
 }

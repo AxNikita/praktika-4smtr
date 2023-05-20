@@ -21,6 +21,7 @@
 				<button
 					v-if="isAuth"
 					class="text-lg px-3"
+					@click="exit"
 				>
 					Выйти
 				</button>
@@ -37,8 +38,17 @@
 </template>
 
 <script setup>
-import { ref } from 'vue';
+import { ref, onMounted, onUpdated } from 'vue';
 import { RouterLink } from 'vue-router';
 
 const isAuth = ref(false);
+
+function exit() {
+	localStorage.removeItem('login');
+	isAuth.value = false;
+}
+
+onMounted(() => {
+	isAuth.value = !!localStorage.getItem('login');
+});
 </script>

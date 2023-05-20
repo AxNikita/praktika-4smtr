@@ -3,12 +3,12 @@
 		<Wrapper class="w-1/4 max-h-80">
 			<h3 class="text-xl text-center">Ваш профиль</h3>
 
-			<Avatar :username="'Aimple Name'" />
+			<Avatar :username="(login.charAt(0).toUpperCase() + login.slice(1)) || 'User Name'" />
 
 			<div class="flex flex-col mt-4">
-				<span>Ваш логин: </span>
-				<span>Количество подписчиков: </span>
-				<span>Количество постов: </span>
+				<span>Ваш логин: {{ login }}</span>
+				<span>Количество подписчиков: {{ subscribers.length }}</span>
+				<span>Количество постов: {{ posts.length }}</span>
 			</div>
 		</Wrapper>
 		<Wrapper class="w-3/4">
@@ -37,29 +37,39 @@
 </template>
 
 <script setup>
-import { ref } from 'vue';
+import { ref, onMounted } from 'vue';
+import axios from 'axios';
 import router from '@/router/index.js';
 import Avatar from '@/components/Avatar.vue';
 import Wrapper from '@/components/Wrapper.vue';
 import Post from '@/components/Post.vue';
+import { baseUrl } from '@/constants.js';
 
-const posts = ref([
-	{
-		id: 1,
-		title: 'My journey with Vue',
-		descr: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Laboriosam, aperiam. Nisi repellendus hic minus, perspiciatis debitis quod laudantium animi accusantium?'
-	},
-	{
-		id: 2,
-		title: 'Blogging with Vue',
-		descr: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Laboriosam, aperiam. Nisi repellendus hic minus, perspiciatis debitis quod laudantium animi accusantium?'
-	},
-	{
-		id: 3,
-		title: 'Why Vue is so fun',
-		descr: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Laboriosam, aperiam. Nisi repellendus hic minus, perspiciatis debitis quod laudantium animi accusantium?'
+const login = localStorage.getItem('login');
+const posts = ref([]);
+const subscribers = ref([]);
+
+onMounted(() => {
+	const login = localStorage.getItem('login');
+
+	if (login) {
+		axios.get(`${baseUrl}/user-posts?login=${login}`)
+			.then(data => {
+				posts.value = [...data.data];
+			})
+			.catch(error => {
+				console.error(error);
+			});
+
+		axios.get(`${baseUrl}/subscribers?login=${login}`)
+			.then(data => {
+				subscribers.value = [...data.data];
+			})
+			.catch(error => {
+				console.error(error);
+			});
 	}
-]);
+});
 
 function createPost() {
 	router.push('/create-post');

@@ -14,7 +14,7 @@ import java.util.List;
 @NoArgsConstructor(force = true)
 @Getter
 @Setter
-public final class UserEntity {
+public class UserEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

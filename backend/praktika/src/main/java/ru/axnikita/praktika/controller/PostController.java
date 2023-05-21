@@ -63,15 +63,14 @@ public class PostController {
     public ResponseEntity<List<PostEntity>> getPosts(@RequestParam boolean isPublic, @RequestParam(required = false) String tag) {
 
         try {
-            List<PostEntity> posts;
 
-            posts = postRepository
+            List<PostEntity> posts = postRepository
                     .findAll()
                     .stream()
                     .filter(entity -> String.valueOf(entity.isPublic()).equals(String.valueOf(isPublic)))
                     .toList();
 
-            if (tag == null) {
+            if (tag != null) {
                 posts = posts.stream().filter(entity -> entity.getTags().contains(tag)).toList();
             }
 

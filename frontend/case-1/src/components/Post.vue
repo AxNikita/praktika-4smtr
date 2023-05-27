@@ -39,7 +39,7 @@ import Wrapper from '@/components/Wrapper.vue';
 const props = defineProps(['title', 'descr', 'postId', 'isSecondary', 'isProfile', 'userLogin']);
 
 let to = ref('');
-to.value = `post/${props.postId}`;
+to.value = `/post/${props.postId}`;
 
 if (to) {
 	to.value = to.value + `?user=${props.userLogin}`;

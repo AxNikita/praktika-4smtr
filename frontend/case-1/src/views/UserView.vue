@@ -1,7 +1,7 @@
 <template>
 	<div class="flex gap-6">
 		<Wrapper class="w-1/4 max-h-80">
-			<h3 class="text-xl text-center">login</h3>
+			<h3 class="text-xl text-center">{{ userLogin }}</h3>
 
 			<Avatar :username="(userLogin.charAt(0).toUpperCase() + userLogin.slice(1)) || 'User Name'" />
 
@@ -30,6 +30,7 @@
 					:descr="post.descr"
 					:postId="post.id"
 					:isSecondary="true"
+					:userLogin="userLogin"
 				/>
 			</section>
 		</Wrapper>

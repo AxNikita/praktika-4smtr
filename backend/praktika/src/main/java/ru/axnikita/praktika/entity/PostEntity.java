@@ -49,4 +49,15 @@ public class PostEntity {
         this.tags = entity.getTags();
         return this;
     }
+
+    public PostEntity baseOnAddId(PostEntity entity, long id) {
+        this.id = id;
+        this.login = entity.getLogin();
+        this.title = entity.getTitle();
+        this.description = entity.getDescription();
+        this.text = entity.getText();
+        this.isPublic = entity.isPublic();
+        this.tags = entity.getTags();
+        return this;
+    }
 }

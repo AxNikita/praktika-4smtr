@@ -38,7 +38,7 @@ public class PostController {
 
         try {
             Optional<PostEntity> found = postRepository.findById(Long.valueOf(postId));
-            found.ifPresent(entity -> postRepository.save(entity.baseOn(postEntity)));
+            found.ifPresent(entity -> postRepository.save(entity.baseOnAddId(postEntity, entity.getId())));
         } catch (Exception e) {
             return ResponseEntity.internalServerError().build();
         }

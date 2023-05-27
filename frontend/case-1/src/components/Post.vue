@@ -8,7 +8,7 @@
 		</p>
 		<div v-if="!isProfile" class="flex justify-end">
 			<RouterLink
-				:to="`post/${postId}`"
+				:to="to"
 				class="read-more"
 			>
 				Читать далее
@@ -32,11 +32,18 @@
 </template>
 
 <script setup>
-import { defineProps } from 'vue';
+import { defineProps, ref } from 'vue';
 import { RouterLink } from 'vue-router';
 import Wrapper from '@/components/Wrapper.vue';
 
-defineProps(['title', 'descr', 'postId', 'isSecondary', 'isProfile']);
+const props = defineProps(['title', 'descr', 'postId', 'isSecondary', 'isProfile', 'userLogin']);
+
+let to = ref('');
+to.value = `post/${props.postId}`;
+
+if (to) {
+	to.value = to.value + `?user=${props.userLogin}`;
+}
 </script>
 
 <style scoped>

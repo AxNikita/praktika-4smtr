@@ -4,8 +4,9 @@
 			v-for="post in posts"
 			:key="post.id"
 			:title="post.title"
-			:descr="post.descr"
+			:descr="post.description"
 			:postId="post.id"
+			:userLogin="post.login"
 		/>
 	</div>
 </template>
@@ -16,12 +17,15 @@ import axios from 'axios';
 import Post from '@/components/Post.vue';
 import { baseUrl } from '@/constants.js';
 
+let posts = ref([]);
+
 onMounted(() => {
 	axios.get(`${baseUrl}/post?isPublic=true`)
-		.then((data) => {
-			console.log('data >>>', data);
+		.then(data => {
+			posts.value = [...data.data];
+		})
+		.catch(error => {
+			console.error(error);
 		})
 });
-
-const posts = ref([]);
 </script>

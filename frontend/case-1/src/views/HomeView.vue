@@ -1,13 +1,19 @@
 <template>
-	<div class="grid grid-cols-2 gap-4">
-		<Post
-			v-for="post in posts"
-			:key="post.id"
-			:title="post.title"
-			:descr="post.description"
-			:postId="post.id"
-			:userLogin="post.login"
-		/>
+	<div>
+		<div v-if="posts.length" class="grid grid-cols-2 gap-4">
+			<Post
+				v-for="post in posts"
+				:key="post.id"
+				:title="post.title"
+				:descr="post.description"
+				:postId="post.id"
+				:userLogin="post.login"
+			/>
+		</div>
+		<div v-else class="mt-24">
+			<h2 class="text-2xl text-center">Пока нет ни одного поста</h2>
+			<p class="text-lg text-center mt-2">Войдите и создайте первый пост в блоге</p>
+		</div>
 	</div>
 </template>
 

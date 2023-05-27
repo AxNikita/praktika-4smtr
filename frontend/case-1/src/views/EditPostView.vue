@@ -61,9 +61,9 @@
 			<div class="absolute right-5 top-6">
 				<button
 					class="bg-gray-300 px-4 hover:bg-gray-400 shadow-md"
-					@click="createPost"
+					@click="updatePost"
 				>
-					Опубликовать
+					Обновить
 				</button>
 			</div>
 
@@ -76,21 +76,47 @@
 </template>
 
 <script setup>
-import { ref } from 'vue';
+import { ref, onMounted } from 'vue';
+import { useRoute, useRouter } from 'vue-router'
 import axios from 'axios';
-import router from '@/router/index.js';
 import Wrapper from '@/components/Wrapper.vue';
 import { baseUrl } from '@/constants.js';
+
+const route = useRoute();
+const router = useRouter();
+
+const login = localStorage.getItem('login');
 
 let title = ref('');
 let description = ref('');
 let text = ref('');
 let tagsStr = ref('');
-let isPublic = ref(false);
+let isPublic = ref(true);
 
-function createPost() {
+function getPosts() {
+	axios.get(`${baseUrl}/user-posts?login=${login}`)
+		.then(data => {
+			const posts = [...data.data];
+			const post = posts.find(post => post.id === +route.params.id);
+
+			if (post) {
+				title.value = post.title;
+				description.value = post.description;
+				text.value = post.text;
+				tagsStr.value = post.tags.join(' ');
+				isPublic.value = post.isPublic;
+			}
+		})
+		.catch(error => {
+			console.error(error);
+		});
+}
+
+function updatePost() {
 	if (title.value && text.value) {
 		const payload = {
+			id: route.params.id,
+			login,
 			title: title.value,
 			description: description.value,
 			text: text.value,
@@ -98,10 +124,8 @@ function createPost() {
 			tags: tagsStr.value.split(' '),
 		};
 
-		const login = localStorage.getItem('login');
-
 		if (login) {
-			axios.post(`${baseUrl}/post?login=${login}`, payload)
+			axios.put(`${baseUrl}/post?login=${login}&postId=${route.params.id}`, payload)
 				.then(() => {
 					router.push('/profile');
 				})
@@ -112,4 +136,7 @@ function createPost() {
 	}
 }
 
+onMounted(() => {
+	getPosts();
+});
 </script>

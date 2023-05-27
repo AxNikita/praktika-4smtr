@@ -6,13 +6,27 @@
 		<p>
 			{{ descr }}
 		</p>
-		<div class="flex justify-end">
+		<div v-if="!isProfile" class="flex justify-end">
 			<RouterLink
 				:to="`post/${postId}`"
 				class="read-more"
 			>
 				Читать далее
 			</RouterLink>
+		</div>
+		<div v-else class="flex justify-end gap-2">
+			<button
+				@click="$emit('delete', postId)"
+				class="bg-gray-300 px-4 hover:bg-gray-400 shadow-md"
+			>
+				Удалить
+			</button>
+			<button
+				class="bg-gray-300 px-4 hover:bg-gray-400 shadow-md"
+				@click="$emit('edit', postId)"
+			>
+				Редактировать
+			</button>
 		</div>
 	</Wrapper>
 </template>
@@ -22,7 +36,7 @@ import { defineProps } from 'vue';
 import { RouterLink } from 'vue-router';
 import Wrapper from '@/components/Wrapper.vue';
 
-defineProps(['title', 'descr', 'postId', 'isSecondary']);
+defineProps(['title', 'descr', 'postId', 'isSecondary', 'isProfile']);
 </script>
 
 <style scoped>

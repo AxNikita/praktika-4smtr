@@ -11,24 +11,17 @@
 </template>
 
 <script setup>
-import { ref } from 'vue';
+import { ref, onMounted } from 'vue';
+import axios from 'axios';
 import Post from '@/components/Post.vue';
+import { baseUrl } from '@/constants.js';
 
-const posts = ref([
-	{
-		id: 1,
-		title: 'My journey with Vue',
-		descr: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Laboriosam, aperiam. Nisi repellendus hic minus, perspiciatis debitis quod laudantium animi accusantium?'
-	},
-	{
-		id: 2,
-		title: 'Blogging with Vue',
-		descr: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Laboriosam, aperiam. Nisi repellendus hic minus, perspiciatis debitis quod laudantium animi accusantium?'
-	},
-	{
-		id: 3,
-		title: 'Why Vue is so fun',
-		descr: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Laboriosam, aperiam. Nisi repellendus hic minus, perspiciatis debitis quod laudantium animi accusantium?'
-	}
-]);
+onMounted(() => {
+	axios.get(`${baseUrl}/post?isPublic=true`)
+		.then((data) => {
+			console.log('data >>>', data);
+		})
+});
+
+const posts = ref([]);
 </script>

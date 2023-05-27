@@ -30,6 +30,9 @@
 					:descr="post.description"
 					:postId="post.id"
 					:isSecondary="true"
+					:isProfile="true"
+					@delete="deleteClick"
+					@edit="editClick"
 				/>
 			</section>
 		</Wrapper>
@@ -50,16 +53,8 @@ const posts = ref([]);
 const subscribers = ref([]);
 
 onMounted(() => {
-	const login = localStorage.getItem('login');
-
 	if (login) {
-		axios.get(`${baseUrl}/user-posts?login=${login}`)
-			.then(data => {
-				posts.value = [...data.data];
-			})
-			.catch(error => {
-				console.error(error);
-			});
+		getPosts();
 
 		axios.get(`${baseUrl}/subscribers?login=${login}`)
 			.then(data => {
@@ -71,7 +66,31 @@ onMounted(() => {
 	}
 });
 
+function getPosts() {
+	axios.get(`${baseUrl}/user-posts?login=${login}`)
+		.then(data => {
+			posts.value = [...data.data];
+		})
+		.catch(error => {
+			console.error(error);
+		});
+}
+
 function createPost() {
 	router.push('/create-post');
+}
+
+function deleteClick(id) {
+	axios.delete(`${baseUrl}/post?login=${login}&postId=${id}`)
+		.then(() => {
+			getPosts();
+		})
+		.catch(error => {
+			console.error(error);
+		});
+}
+
+function editClick(id) {
+	router.push(`edit-post/${id}`);
 }
 </script>

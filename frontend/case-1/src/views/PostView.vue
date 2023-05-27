@@ -21,12 +21,16 @@
 			<h2 class="text-xl mb-3">Комментарии</h2>
 
 			<div class="flex flex-col gap-3">
-				<Comment
+				<RouterLink
 					v-for="comment in comments"
 					:key="comment.id"
-					:username="(comment.login.charAt(0).toUpperCase() + comment.login.slice(1)) || 'User Name'"
-					:comment="comment.text"
-				/>
+					:to="`/user/${comment.login}`"
+				>
+					<Comment
+						:username="(comment.login.charAt(0).toUpperCase() + comment.login.slice(1)) || 'User Name'"
+						:comment="comment.text"
+					/>
+				</RouterLink>
 			</div>
 
 			<div class="mt-6">
@@ -48,7 +52,7 @@
 
 <script setup>
 import { ref, onMounted } from 'vue';
-import { useRoute } from 'vue-router';
+import { useRoute, RouterLink } from 'vue-router';
 import axios from 'axios';
 import Comment from '@/components/Comment.vue';
 import Wrapper from '@/components/Wrapper.vue';

@@ -38,7 +38,7 @@
 </template>
 
 <script setup>
-import { ref, onMounted, onUpdated } from 'vue';
+import { ref, onMounted } from 'vue';
 import { RouterLink } from 'vue-router';
 
 const isAuth = ref(false);

@@ -28,6 +28,4 @@ public class CommentEntity {
     @Column(name = "text")
     private String text;
 
-    @Column(name = "time")
-    private String time;
 }

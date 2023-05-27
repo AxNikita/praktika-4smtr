@@ -151,6 +151,5 @@ TYPE @comment // Модель комментария
 TYPE @comments // Модель списка комментариев
 {
   "login": "user_login",
-  "text": "text",
-  "time": "time"
+  "text": "text"
 }

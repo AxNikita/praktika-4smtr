@@ -21,30 +21,70 @@ GET /case2/db-init           // Метод создания тестового �
   500 empty                  // Ошибка создания данных
 
 
-GET /case2/book              // Метод Получения всех книг что есть в БД (для админской страницы)
-  200 @book                  // Список всех книг
-  500 empty                  // Ошибка получения книг
+GET /case2/book              // Метод получения книги по id
+  Query "id=book_id"
+  {
+    "id": "book_id" // {type: "long"}
+  }
+  200 @book                  // Книга получена
+  500 empty                  // Ошибка получения книги
 
 
-POST /case2/book             // Метод сохранения/редактирования книги. При сохранении не нужен id, при редактировании нужен.
+POST /case2/book             // Метод сохранения книги.
   Request @book
-  200 empty                  // Книга сохранена/редактирована
-  500 empty                  // Ошибка сохранения/редактирования книги
+  200 empty                  // Книга сохранена успешно
+  500 empty                  // Ошибка сохранения книги
 
 
-DELETE /case2/book           // Метод удаления книги. Нужен id обязательно
+PUT /case2/book              // Метод редактирования книги по id
+  Query "id=book_id"
+  {
+    "id": "book_id" // {type: "long"}
+  }
   Request @book
+  200 empty                  // Книга отредактирована успешно
+  500 empty                  // Ошибка редактирования книги
+
+
+DELETE /case2/book           // Метод удаления книги.
+  Query "id=book_id"
+  {
+    "id": "book_id" // {type: "long"}
+  }
   200 empty                  // Книга удалена успешно
   500 empty                  // Ошибка удаления книги
 
 
-GET /case2/user-books        // Метод Получения всех публичных и доступных книг. Если передать login, то вернуться только те книги которые арендавал/купил пользователь
-  Query "login=user_login"
+GET /case2/books               // Метод получения всех книг (имеется фильтр)
+  Query "author=author&category=category1&year=2001"
   {
-    "login": "user_login" // {type: "string"}
+    "author": "author",        // {type: "string", "optional": "true"}
+    "category": "category",    // {type: "BookCategory", "optional": "true"}
+    "year": "year",            // {type: "string", "optional": "true"}
   }
-  200 @book                  // Список книг
-  500 empty                  // Ошибка получения книг
+  200 [@book]                  // Список книг
+  500 empty                    // Ошибка получения книг
+
+
+POST /case2/buy                           // Метод покупки книги
+  Query "login=user_login&bookId=bookId"
+  {
+    "author": "author",                   // {type: "string"}
+    "bookId": "bookId"                    // {type: "long"}
+  }
+  200 empty                               // Список книг
+  500 empty                               // Ошибка получения книг
+
+
+POST /case2/rent                                                      // Метод аренды книги
+  Query "login=user_login&bookId=bookId&reservedUntil=reservedUntil"
+  {
+    "author": "author",                                               // {type: "string"}
+    "bookId": "bookId",                                               // {type: "long"}
+    "reservedUntil": "date_reserve"                                   // {type: "string"}
+  }
+  200 empty                    // Список книг
+  500 empty                    // Ошибка получения книг
 
 
 
@@ -61,13 +101,13 @@ TYPE @book // Модель книги
   "id": "id",
   "title": "title",
   "description": "description",
-  "category": "category",
+  "category": ["category1", "category2"],
   "author": "author",
   "date": "date",
   "priceBuy": "priceBuy",
   "priceReserve": "priceReserve",
-  "status": "status",              //    PUBLIC, PRIVATE
-  "availability": "availability",  // AVAILABLE, RESERVE
+  "status": "status",              // PUBLIC, PRIVATE
+  "availability": "availability",  // AVAILABLE, RENT, BUY
   "login": "login",
   "reservedUntil": "reservedUntil"
 }

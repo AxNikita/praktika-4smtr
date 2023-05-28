@@ -49,7 +49,7 @@
 </template>
 
 <script setup>
-import { ref, defineAsyncComponent  } from 'vue';
+import { ref, defineAsyncComponent } from 'vue';
 import Book from '@/components/Book.vue';
 import Button from '@/components/Button.vue';
 import Filter from '@/components/Filter.vue';

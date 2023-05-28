@@ -6,7 +6,10 @@ const router = createRouter({
     {
       path: '/',
       name: 'home',
-      component: () => import('../views/HomeView.vue')
+      component: () => import('../views/HomeView.vue'),
+      meta: {
+        auth: true,
+      }
     },
     {
       path: '/login',
@@ -19,17 +22,26 @@ const router = createRouter({
       component: () => import('../views/AdminView.vue'),
       meta: {
         onlyAdmin: true,
+        auth: true,
       },
     },
     {
-      path: '/book/:id',
-      name: 'book',
-      component: () => import('../views/BookView.vue')
+      path: '/admin/create-book',
+      name: 'createBook',
+      component: () => import('../views/CreateBookView.vue'),
+      meta: {
+        onlyAdmin: true,
+        auth: true,
+      },
     },
     {
-      path: '/book/:id',
-      name: 'book',
-      component: () => import('../views/BookView.vue')
+      path: '/admin/edit-book/:id',
+      name: 'editBook',
+      component: () => import('../views/EditBookView.vue'),
+      meta: {
+        onlyAdmin: true,
+        auth: true,
+      },
     },
     {
       path: '/profile',
@@ -37,6 +49,7 @@ const router = createRouter({
       component: () => import('../views/ProfileView.vue'),
       meta: {
         onlyUser: true,
+        auth: true,
       }
     },
   ]

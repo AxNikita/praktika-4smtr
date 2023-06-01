@@ -19,27 +19,32 @@
 		</div>
 
 		<RadioList
-			:title="'Категория'"
 			:items="categories"
+			title="Категория"
+			radioName="category"
+			@radioChange="changeCategory"
 		/>
 		<RadioList
-			:title="'Автор'"
 			:items="authors"
+			title="Автор"
+			radioName="authors"
+			@radioChange="changeAuthor"
 		/>
 	</div>
 </template>
 
 <script setup>
-import { ref, defineEmits, watch } from 'vue';
+import { ref, defineEmits, defineProps, watch } from 'vue';
 import RadioList from '@/components/RadioList.vue';
 
 const emit = defineEmits(['changeFilter']);
+const props = defineProps(['authors'])
 
-const categories = ref(['Категория 1', 'Категория 2', 'Категория 3']);
-const authors = ref(['Автор 1', 'Автор 2', 'Автор 3']);
+const categories = ref(['documentation', 'balalar', 'classic', 'fantasy']);
 
 let filterData = ref({
 	year: null,
+	category: null,
 });
 
 function inputYear(event) {
@@ -52,6 +57,17 @@ function inputYear(event) {
 			year: event.target.value
 		}
 	}
+}
+
+function changeCategory(category) {
+	filterData.value = {
+		...filterData.value,
+		category,
+	};
+}
+
+function changeAuthor() {
+
 }
 
 watch(filterData, () => {

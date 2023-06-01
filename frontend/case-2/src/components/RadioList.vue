@@ -11,6 +11,7 @@
 					type="radio"
 					:name="radioName"
 					class="rounded text-indigo-600 focus:ring-indigo-500"
+					@change="$emit('radioChange', item)"
 				>
 				<span class="ml-2 text-gray-700">{{ item }}</span>
 			</label>

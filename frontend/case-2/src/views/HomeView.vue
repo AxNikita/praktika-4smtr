@@ -1,6 +1,9 @@
 <template>
 	<div class="p-4 flex gap-6">
-		<Filter @changeFilter="filterBooks" />
+		<Filter
+			@changeFilter="filterBooks"
+			:authors="authors"
+		/>
 		<div class="w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
 			<Book
 				v-for="book in filteredBooks"
@@ -61,6 +64,7 @@ const RentDialog = defineAsyncComponent(() => import('@/components/RentDialog.vu
 const buyDialog = ref(null);
 const rentDialog = ref(null);
 
+let authors = ref([]);
 let books = ref([]);
 let selectedBook = ref(null);
 let filterData = ref({});
@@ -70,6 +74,10 @@ const filteredBooks = computed(() => {
 
 	if (filterData.value.year?.length === 4) {
 		newBooks = newBooks.filter(book => new Date(book.date).getFullYear() === +filterData.value.year);
+	}
+
+	if (filterData.value.category) {
+		newBooks = newBooks.filter(book => book.category.includes(filterData.value.category));
 	}
 
 	return newBooks;
@@ -117,6 +125,7 @@ function fetchBooks() {
 			}
 
 			books.value = [...data.data];
+			authors.value = [...new Set([...data.data.map(book => book.author)])];
 		})
 		.catch(error => {
 			console.log('error >>>', error);

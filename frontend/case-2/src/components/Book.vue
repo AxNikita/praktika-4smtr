@@ -7,15 +7,15 @@
 			<h3 class="text-xl font-semibold text-gray-800 mb-2">{{ book.title }}</h3>
 			<p class="text-gray-600 text-sm mb-1">{{ book.author }}</p>
 			<p class="text-gray-600 text-sm mb-2">{{ book.description }}</p>
-			<p class="text-gray-500 text-xs italic">{{ book.year }} | {{ book.category }}</p>
+			<p class="text-gray-500 text-xs italic">{{ new Date(book.date).getFullYear() }} | {{ book.category.join(', ') }}</p>
 			<div class="mt-4">
 				<div class="flex items-center">
 					<span class="text-gray-500">Аренда:&nbsp;</span>
-					от {{ book.rentalPrice }} руб.
+					от {{ book.priceReserve }}
 				</div>
 				<div class="flex items-center">
 					<span class="text-gray-500">Полная покупка:&nbsp;</span>
-					{{ book.fullPrice }} руб.
+					{{ book.priceBuy }}
 				</div>
 			</div>
 

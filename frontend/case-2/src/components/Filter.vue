@@ -30,14 +30,31 @@
 </template>
 
 <script setup>
-import { ref } from 'vue';
+import { ref, defineEmits, watch } from 'vue';
 import RadioList from '@/components/RadioList.vue';
+
+const emit = defineEmits(['changeFilter']);
 
 const categories = ref(['Категория 1', 'Категория 2', 'Категория 3']);
 const authors = ref(['Автор 1', 'Автор 2', 'Автор 3']);
 
+let filterData = ref({
+	year: null,
+});
+
 function inputYear(event) {
 	const inputValue = event.target.value;
 	event.target.value = inputValue.replace(/\D/g, '');
+
+	if (event.target.value) {
+		filterData.value = {
+			...filterData.value,
+			year: event.target.value
+		}
+	}
 }
+
+watch(filterData, () => {
+	emit('changeFilter', filterData.value);
+});
 </script>

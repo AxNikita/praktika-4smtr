@@ -33,7 +33,7 @@
 		</div>
 		<div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-4">
 			<Book
-				v-for="book in books"
+				v-for="book in visibleBooks"
 				:key="book.id"
 				:book="book"
 				:isProfile="true"
@@ -43,53 +43,46 @@
 </template>
 
 <script setup>
-import { ref } from 'vue';
+import { ref, onMounted, computed } from 'vue';
+import axios from 'axios';
 import Book from '@/components/Book.vue';
 
-let books = ref([
-	{
-		id: 1,
-		title: 'Book 1',
-		author: 'Author 1',
-		description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
-		year: 2022,
-		category: 'Fiction',
-		rentalPrice: 50,
-		fullPrice: 200,
-	},
-	{
-		id: 2,
-		title: 'Book 2',
-		author: 'Author 2',
-		description: 'Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
-		year: 2021,
-		category: 'Non-fiction',
-		rentalPrice: 30,
-		fullPrice: 150,
-	},
-	{
-		id: 3,
-		title: 'Book 3',
-		author: 'Author 3',
-		description: 'Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
-		year: 2012,
-		category: 'Non-fiction',
-		rentalPrice: 40,
-		fullPrice: 350,
-	},
-	{
-		id: 5,
-		title: 'Book 5',
-		author: 'Author 5',
-		description: 'Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
-		year: 2012,
-		category: 'Non-fiction',
-		rentalPrice: 40,
-		fullPrice: 350,
-	},
-]);
+const login = localStorage.getItem('login');
 
+let books = ref([]);
+let purchasedBooks = ref([]);
+let rentedBooks = ref([]);
 let activeTab = ref('all');
+
+const visibleBooks = computed(() => {
+	if (activeTab.value === 'all') {
+		return books.value;
+	} else if (activeTab.value === 'rented') {
+		return rentedBooks.value;
+	} else if (activeTab.value === 'purchased') {
+		return purchasedBooks.value;
+	}
+});
+
+function fetchBooks() {
+	axios.get(`${import.meta.env.VITE_APP_BASE_URL}/books`)
+		.then(data => {
+			books.value = [...data.data].filter(book => book.login === login);
+			purchasedBooks.value = books.value.filter(book => book.availability === 'BUY');
+			rentedBooks.value = books.value.filter(book => book.availability === 'RENT');
+		})
+		.catch(error => {
+			console.log('error >>>', error);
+		});
+}
+
+function changeTab(key) {
+	activeTab.value = key;
+}
+
+onMounted(() => {
+	fetchBooks();
+});
 </script>
 
 <style scoped>

@@ -14,7 +14,7 @@
 					<select v-model="selectedPeriod">
 						<option value="week">Неделя</option>
 						<option value="month">Месяц</option>
-						<option value="twoMonths">Два месяца</option>
+						<option value="2-month">Два месяца</option>
 					</select>
 				</div>
 
@@ -22,7 +22,7 @@
 					<Button :isSecondary="true" @click="hide">
 						{{ cancelButtonText }}
 					</Button>
-					<Button @click="confirm">
+					<Button @click="$emit('onAccept', selectedPeriod)">
 						{{ confirmButtonText }}
 					</Button>
 				</div>
@@ -48,12 +48,6 @@ const show = () => {
 const hide = () => {
 	emit('hide');
 	visible.value = false;
-};
-
-const confirm = () => {
-	// Вызовите нужную логику при подтверждении выбранного периода
-	console.log(selectedPeriod.value);
-	hide();
 };
 
 function emitInstance() {

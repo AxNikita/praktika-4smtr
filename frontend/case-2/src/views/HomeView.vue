@@ -14,13 +14,13 @@
 					<div class="mt-4 flex gap-2">
 						<Button
 							:isFull="true"
-							@click="buyBook(book)"
+							@click="buyBookModal(book)"
 						>
 							Купить
 						</Button>
 						<Button
 							:isFull="true"
-							@click="rentBook(book)"
+							@click="rentBookModal(book)"
 						>
 							Арендовать
 						</Button>
@@ -36,6 +36,7 @@
 				:description="`Вы хотите купить '${selectedBook?.title || ''}'? Книгу будет невозможно вернуть.`"
 				@dialog-instance="setBuyDialogInstance"
 				@hide="setInitialSelectedBook"
+				@onAccept="buyBook"
 			/>
 
 			<RentDialog
@@ -46,6 +47,7 @@
 				:description="`Выберите время аренды книги '${selectedBook?.title || ''}':`"
 				@dialog-instance="setRentDialogInstance"
 				@hide="setInitialSelectedBook"
+				@onAccept="rentBook"
 			/>
 		</div>
 	</div>
@@ -61,6 +63,8 @@ import Filter from '@/components/Filter.vue';
 const BuyDialog = defineAsyncComponent(() => import('@/components/BuyDialog.vue'));
 const RentDialog = defineAsyncComponent(() => import('@/components/RentDialog.vue'));
 
+const login = localStorage.getItem('login');
+
 const buyDialog = ref(null);
 const rentDialog = ref(null);
 
@@ -71,6 +75,8 @@ let filterData = ref({});
 
 const filteredBooks = computed(() => {
 	let newBooks = [...books.value];
+
+	newBooks = newBooks.filter(book => !book.login);
 
 	if (filterData.value.year?.length === 4) {
 		newBooks = newBooks.filter(book => new Date(book.date).getFullYear() === +filterData.value.year);
@@ -83,12 +89,50 @@ const filteredBooks = computed(() => {
 	return newBooks;
 });
 
-function buyBook(book) {
+function serializePeriod(period) {
+	const currentDate = new Date();
+
+	if (period === "week") {
+		currentDate.setDate(currentDate.getDate() + 7);
+	} else if (period === "month") {
+		currentDate.setMonth(currentDate.getMonth() + 1);
+	} else if (period === "2-month") {
+		currentDate.setMonth(currentDate.getMonth() + 2);
+	}
+
+	const day = String(currentDate.getDate()).padStart(2, "0");
+	const month = String(currentDate.getMonth() + 1).padStart(2, "0");
+	const year = currentDate.getFullYear();
+
+	return `${day}-${month}-${year}`;
+}
+
+function buyBookModal(book) {
 	selectedBook.value = book;
 	buyDialog.value.show();
 }
 
-function rentBook(book) {
+async function buyBook() {
+	if (selectedBook.value) {
+		const url = `${import.meta.env.VITE_APP_BASE_URL}/buy?login=${login}&bookId=${selectedBook.value.id}`;
+		await axios.post(url);
+		buyDialog.value.hide();
+		fetchBooks();
+	}
+}
+
+async function rentBook(period) {
+	if (selectedBook.value) {
+		const periodInDateFormat = serializePeriod(period);
+
+		const url = `${import.meta.env.VITE_APP_BASE_URL}/rent?login=${login}&bookId=${selectedBook.value.id}&reservedUntil=${periodInDateFormat}`;
+		await axios.post(url);
+		rentDialog.value.hide();
+		fetchBooks();
+	}
+}
+
+function rentBookModal(book) {
 	selectedBook.value = book;
 	rentDialog.value.show();
 }

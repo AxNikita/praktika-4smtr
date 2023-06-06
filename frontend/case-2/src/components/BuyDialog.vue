@@ -12,7 +12,7 @@
 					<Button :isSecondary="true" @click="hide">
 						{{ cancelButtonText }}
 					</Button>
-					<Button>
+					<Button @click="$emit('onAccept')">
 						{{ confirmButtonText }}
 					</Button>
 				</div>

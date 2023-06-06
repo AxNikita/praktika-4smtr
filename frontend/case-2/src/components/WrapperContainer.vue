@@ -1,5 +1,5 @@
 <template>
-	<div class="container">
+	<div class="content">
 		<div class="bg-white w-5/12 rounded shadow-md p-6">
 			<slot />
 		</div>
@@ -7,7 +7,7 @@
 </template>
 
 <style scoped>
-.container {
+.content {
 	@apply flex items-center justify-center;
 	min-height: calc(100vh - 96px);
 }

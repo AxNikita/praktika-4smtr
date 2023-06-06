@@ -74,7 +74,8 @@ function authorization() {
 			.then(data => {
 				if (data.status === 204) {
 					localStorage.setItem('isAdmin', true);
-					router.push('/admin');
+					localStorage.setItem('login', 'admin');
+					router.push('admin');
 				} else {
 					localStorage.setItem('login', login.value);
 					router.push('/')

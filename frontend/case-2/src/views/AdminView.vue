@@ -22,7 +22,7 @@
 							<Button
 								:isFull="true"
 								:isDanger="true"
-								@click="buyBook(book)"
+								@click="deleteBook(book)"
 							>
 								Удалить
 							</Button>
@@ -70,6 +70,16 @@ function getBGBook(book) {
 	if (book.availability === 'RENT') {
 		return 'bg-orange-300';
 	}
+}
+
+function deleteBook(book) {
+	axios.delete(`${import.meta.env.VITE_APP_BASE_URL}/book?id=${book.id}`)
+		.then(() => {
+			fetchBooks();
+		})
+		.catch(error => {
+			console.log('error >>>', error);
+		});
 }
 
 onMounted(() => {

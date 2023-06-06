@@ -104,8 +104,6 @@ watch(books, () => {
 		}
 	});
 
-	console.log(notifyBooks);
-
 	setTimeout(() => {
 		if (notifyBooks.length) {
 			const title = `Скоро кончится аренда ${notifyBooks.length} книг(и)`;

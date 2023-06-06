@@ -1,5 +1,5 @@
 <template>
-	<div class="bg-white rounded shadow-md p-4">
+	<div :class="`${bg ? bg : 'bg-white'} rounded shadow-md p-4`">
 		<div :class="`w-full h-64 rounded flex items-center justify-center text-2xl ${cover.bg} ${cover.text}`">
 			{{ book.title }}
 		</div>
@@ -28,7 +28,7 @@
 import { defineProps, ref } from 'vue';
 import { coverSettings } from '@/constants.js';
 
-const props = defineProps(['book']);
+const props = defineProps(['book', 'bg']);
 
 const cover = ref(generateCover());
 

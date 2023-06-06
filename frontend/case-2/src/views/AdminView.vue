@@ -12,8 +12,12 @@
 					v-for="book in books"
 					:key="book.id"
 					:book="book"
+					:bg="getBGBook(book)"
 				>
-					<template v-slot:controls>
+					<template
+						v-if="!book.login"
+						v-slot:controls
+					>
 						<div class="mt-4 flex gap-2">
 							<Button
 								:isFull="true"
@@ -56,6 +60,16 @@ function fetchBooks() {
 
 function addBook() {
 	router.push('/admin/create-book');
+}
+
+function getBGBook(book) {
+	if (book.availability === 'BUY') {
+		return 'bg-amber-200';
+	}
+
+	if (book.availability === 'RENT') {
+		return 'bg-orange-300';
+	}
 }
 
 onMounted(() => {

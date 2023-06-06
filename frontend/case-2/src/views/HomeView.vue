@@ -54,7 +54,7 @@
 </template>
 
 <script setup>
-import { ref, defineAsyncComponent, onMounted, computed } from 'vue';
+import { ref, defineAsyncComponent, onMounted, computed, watch } from 'vue';
 import axios from 'axios';
 import Book from '@/components/Book.vue';
 import Button from '@/components/Button.vue';
@@ -88,6 +88,42 @@ const filteredBooks = computed(() => {
 
 	return newBooks;
 });
+
+watch(books, () => {
+	const currentDate = new Date();
+	const booksRentedCurrentUser = [...books.value]
+		.filter(book => book.login === login && book.availability === 'RENT');
+
+	let notifyBooks = [];
+
+	booksRentedCurrentUser.forEach(book => {
+		const reservedUntilDate = parseDateString(book.reservedUntil);
+
+		if (reservedUntilDate.setDate(reservedUntilDate.getDate() + 7) >= currentDate.getDate()) {
+			notifyBooks.push(book.title);
+		}
+	});
+
+	console.log(notifyBooks);
+
+	setTimeout(() => {
+		if (notifyBooks.length) {
+			const title = `Скоро кончится аренда ${notifyBooks.length} книг(и)`;
+			const body = notifyBooks.join(', ');
+
+			new Notification(title, { body });
+		}
+	}, 1000);
+});
+
+function parseDateString(dateString) {
+  const day = parseInt(dateString.substr(0, 2), 10);
+  const month = parseInt(dateString.substr(3, 2), 10) - 1; // Месяцы в JavaScript нумеруются с 0
+  const year = parseInt(dateString.substr(6, 4), 10);
+
+  const date = new Date(year, month, day);
+  return date;
+}
 
 function serializePeriod(period) {
 	const currentDate = new Date();
@@ -180,7 +216,11 @@ function filterBooks(data) {
 	filterData.value = { ...data };
 }
 
-onMounted(() => {
+onMounted(async () => {
 	fetchBooks();
+
+	if (Notification.permission === "default") {
+		await Notification.requestPermission();
+	}
 });
 </script>

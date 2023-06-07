@@ -15,7 +15,13 @@
 						v-if="!book.login"
 						v-slot:controls
 					>
-						<div class="mt-4 flex gap-2">
+						<div class="mt-4 flex flex-col gap-2">
+							<Button
+								:isFull="true"
+								@click="editBook(book)"
+							>
+								Редактировать
+							</Button>
 							<Button
 								:isFull="true"
 								:isDanger="true"
@@ -77,6 +83,10 @@ function deleteBook(book) {
 		.catch(error => {
 			console.log('error >>>', error);
 		});
+}
+
+function editBook(book) {
+	router.push(`/admin/edit-book/${book.id}`);
 }
 
 onMounted(() => {

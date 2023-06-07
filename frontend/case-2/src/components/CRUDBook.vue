@@ -90,7 +90,7 @@
 			<div class="flex justify-end">
 				<Button
 					:isPrimary="true"
-					@click="createBook"
+					@click="btnClick"
 				>
 					{{ btnText }}
 				</Button>
@@ -101,12 +101,13 @@
 
 <script setup>
 import { defineProps, ref, onMounted } from 'vue';
-import { useRouter } from 'vue-router';
+import { useRouter, useRoute } from 'vue-router';
 import axios from 'axios';
 import Button from '@/components/Button.vue';
 
-const props = defineProps(['title', 'btnText', 'isEdit', 'book']);
+const props = defineProps(['title', 'btnText', 'isEdit']);
 const router = useRouter();
+const route = useRoute();
 
 let book = ref({
 	title: '',
@@ -130,6 +131,7 @@ function inputNumber(event) {
 function createBook() {
 	let payload = JSON.parse(JSON.stringify(book.value));
 	payload.category = [payload.category];
+	payload.date = payload.year;
 
 	axios.post(`${import.meta.env.VITE_APP_BASE_URL}/book`, payload)
 		.then(() => {
@@ -140,9 +142,39 @@ function createBook() {
 		})
 }
 
+function updateBook() {
+	let payload = JSON.parse(JSON.stringify(book.value));
+	payload.category = [payload.category];
+	payload.date = payload.year;
+
+	axios.put(`${import.meta.env.VITE_APP_BASE_URL}/book?id=${route.params.id}`, payload)
+		.then(() => {
+			router.push('/admin');
+		})
+		.catch(error => {
+			console.log('error >>>', error);
+		})
+}
+
+function btnClick() {
+	if (props.isEdit) {
+		updateBook();
+	} else {
+		createBook();
+	}
+}
+
 onMounted(() => {
 	if (props.isEdit) {
-		book.value = props.book;
+		axios.get(`${import.meta.env.VITE_APP_BASE_URL}/book?id=${route.params.id}`)
+			.then(data => {
+				book.value = data.data;
+				book.value.category = book.value.category[0];
+				book.value.year = book.value.date.slice(-4);
+			})
+			.catch(error => {
+				console.log('error >>>', error);
+			})
 	}
 });
 </script>

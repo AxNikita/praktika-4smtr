@@ -4,7 +4,6 @@
 			title="Редактировать книгу"
 			btnText="Сохранить"
 			:isEdit="true"
-			:book="book"
 		/>
 	</WrapperContainer>
 </template>

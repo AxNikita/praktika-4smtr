@@ -24,7 +24,9 @@
 
 <script setup>
 import { ref, onMounted, onBeforeUnmount, watch } from 'vue';
-import { RouterLink } from 'vue-router';
+import { RouterLink, useRouter } from 'vue-router';
+
+const router = useRouter();
 
 let timer = null;
 let login = ref(localStorage.getItem('login'));
@@ -39,6 +41,7 @@ function logout() {
 	login.value = null;
 	isAdmin.value = null;
 	localStorage.clear();
+	router.push('/login');
 
 	setTimeout(() => {
 		timer = setInterval(() => {

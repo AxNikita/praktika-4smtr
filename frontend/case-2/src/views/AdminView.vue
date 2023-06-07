@@ -1,13 +1,10 @@
 <template>
 	<div class="p-4 flex gap-6">
-		<Filter
-			:authors="authors"
-		/>
 		<div class="w-full">
 			<div class="flex justify-end mb-2">
 				<Button @click="addBook">Добавить книгу</Button>
 			</div>
-			<div class="w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+			<div class="w-full grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-4">
 				<Book
 					v-for="book in books"
 					:key="book.id"

@@ -51,7 +51,7 @@
 						class="form-select w-full mt-1"
 						required
 					>
-						<option value="">Выберите категорию</option>
+						<!-- <option value="">Выберите категорию</option> -->
 						<option
 							v-for="category in categories"
 							:key="category"
@@ -67,7 +67,7 @@
 				<div class="w-1/2">
 					<label for="rentalPrice">Цена аренды</label>
 					<input
-						v-model="book.rentalPrice"
+						v-model="book.priceReserve"
 						type="text"
 						id="rentalPrice"
 						class="form-input w-full mt-1"
@@ -78,7 +78,7 @@
 				<div class="w-1/2">
 					<label for="buyPrice">Цена покупки</label>
 					<input
-						v-model="book.buyPrice"
+						v-model="book.priceBuy"
 						type="text"
 						id="buyPrice"
 						class="form-input w-full mt-1"
@@ -88,7 +88,12 @@
 				</div>
 			</div>
 			<div class="flex justify-end">
-				<Button :isPrimary="true">{{ btnText }}</Button>
+				<Button
+					:isPrimary="true"
+					@click="createBook"
+				>
+					{{ btnText }}
+				</Button>
 			</div>
 		</div>
 	</div>
@@ -96,25 +101,43 @@
 
 <script setup>
 import { defineProps, ref, onMounted } from 'vue';
+import { useRouter } from 'vue-router';
+import axios from 'axios';
 import Button from '@/components/Button.vue';
 
 const props = defineProps(['title', 'btnText', 'isEdit', 'book']);
+const router = useRouter();
 
 let book = ref({
 	title: '',
 	year: '',
-	category: '',
-	rentalPrice: '',
-	buyPrice: '',
+	category: [],
+	priceReserve: '',
+	priceBuy: '',
 	description: '',
 	author: '',
+	status: 'PUBLIC',
+	availability: 'AVAILABLE',
 });
 
-const categories = ref(['Фантастика', 'Детектив', 'Роман', 'Наука']);
+const categories = ref(['fantasy', 'balalar', 'cyberpunk', 'classic', 'documentation']);
 
 function inputNumber(event) {
 	const inputValue = event.target.value;
 	event.target.value = inputValue.replace(/\D/g, '');
+}
+
+function createBook() {
+	let payload = JSON.parse(JSON.stringify(book.value));
+	payload.category = [payload.category];
+
+	axios.post(`${import.meta.env.VITE_APP_BASE_URL}/book`, payload)
+		.then(() => {
+			router.push('/admin');
+		})
+		.catch(error => {
+			console.log('error >>>', error);
+		})
 }
 
 onMounted(() => {

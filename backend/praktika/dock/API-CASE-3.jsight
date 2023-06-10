@@ -1,0 +1,101 @@
+JSIGHT 0.3
+
+INFO
+  Title "Производственная практика 4 семестр CASE-3"
+  Version 1.0
+
+#---------------------- /Authentification -----------------------
+
+POST /case3/auth           // Метод аутеннтификации пользователя
+  Request @auth
+  200 empty          // 1. Пользователь аутентифицирован корректно. 2. Пользователь ранее не существовал, создан корректно, аутентификация прошла успешно
+  204 empty          // Данные пользователя соответствуют пользователю-админ
+  401 empty          // Ошибка аутентификации - невалидные данные
+  500 empty          // Пользователь не может быть создан на сервере
+
+
+#---------------------- /Travel -----------------------
+
+GET /case3/db-init           // Метод создания тестового набора путешествий
+  200 empty                  // Данные созданы корректно
+  500 empty                  // Ошибка создания данных
+
+
+GET /case3/travel              // Метод получения путешествия по id
+  Query "id=travel_id"
+  {
+    "id": "travel_id" // {type: "long"}
+  }
+  200 @book                  // Путешествие получена
+  500 empty                  // Ошибка получения путешествия
+
+
+POST /case3/travel           // Метод сохранения путешествия.
+  Request @travel
+  200 empty                  // путешествие сохранена успешно
+  500 empty                  // Ошибка сохранения путешествия
+
+
+PUT /case3/travel            // Метод редактирования путешествия по id
+  Query "id=travel_id"
+  {
+    "id": "travel_id" // {type: "long"}
+  }
+  Request @travel
+  200 empty                  // Пуктешествие отредактирована успешно
+  500 empty                  // Ошибка редактирования путешествия
+
+
+DELETE /case3/travel         // Метод удаления путешествия.
+  Query "id=travel_id"
+  {
+    "id": "travel_id" // {type: "long"}
+  }
+  200 empty                  // Путешествия удалена успешно
+  500 empty                  // Ошибка удаления путешествия
+
+
+GET /case3/travels             // Метод получения всех путешествий (имеется фильтр по автору. Если автор не указан - возвращаются все возможные значения)
+  Query "author=author"
+  {
+    "author": "author"         // {type: "string", "optional": "true"}
+  }
+  200 [@travel]                // Список книг
+  500 empty                    // Ошибка получения книг
+
+
+#======================== TYPES ==========================
+
+TYPE @auth // Модель пользователь
+{
+  "login": "user_login",
+  "password": "user_password"
+}
+
+TYPE @travel // Модель путешествия
+{
+    "id": "id",
+    "author": "user1",
+    "title": "Egypt",
+    "description": "description",
+    "geolocation": [
+        "1[test1], 2[test2]",
+        "1[test1], 2[test2]"
+    ],
+    "imgUrl": "http://localhost:7000/img",
+    "price": 100,
+    "rating": {
+        "security": 5,
+        "movement": 5,
+        "population": 5,
+        "vegetation": 5
+    },
+    "placeForVisit": [
+        "gory",
+        "reki"
+    ],
+    "placeCulture": [
+        "kafe",
+        "bar"
+    ]
+}

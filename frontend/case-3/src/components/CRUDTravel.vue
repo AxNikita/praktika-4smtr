@@ -13,7 +13,9 @@
 		</div>
 		<div class="flex justify-center gap-4">
 			<div class="w-2/3 bg-white rounded shadow-md p-6">
-				<div class="border-2 border-black w-full h-72"></div>
+				<div class="border-2 border-black w-full h-72">
+					<div id="map" class="h-72 w-full"></div>
+				</div>
 
 				<div class="flex flex-col gap-4 mt-4">
 					<div>
@@ -212,6 +214,14 @@ function btnClick() {
 }
 
 onMounted(() => {
+	ymaps.ready(init);
+    function init(){
+        const myMap = new ymaps.Map("map", {
+            center: [55.76, 37.64],
+            zoom: 7
+        });
+    }
+
 	if (props.isEdit) {
 		// axios.get(`${import.meta.env.VITE_APP_BASE_URL}/book?id=${route.params.id}`)
 		// 	.then(data => {

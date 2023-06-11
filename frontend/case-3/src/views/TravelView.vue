@@ -6,7 +6,7 @@
 				<div class="mb-4 flex items-center gap-3 ">
 					<h4 class="text-md font-bold">Безопасность:</h4>
 					<div class="rating">
-						<template v-for="star in travel.rating.security">
+						<template v-for="star in travel?.rating?.security">
 							<span class="text-2xl text-yellow-400">&#9733;</span>
 						</template>
 					</div>
@@ -14,7 +14,7 @@
 				<div class="mb-4 flex items-center gap-3 ">
 					<h4 class="text-md font-bold">Транспорт:</h4>
 					<div class="rating">
-						<template v-for="star in travel.rating.movement">
+						<template v-for="star in travel?.rating?.movement">
 							<span class="text-2xl text-yellow-400">&#9733;</span>
 						</template>
 					</div>
@@ -22,7 +22,7 @@
 				<div class="mb-4 flex items-center gap-3 ">
 					<h4 class="text-md font-bold">Население:</h4>
 					<div class="rating">
-						<template v-for="star in travel.rating.population">
+						<template v-for="star in travel?.rating?.population">
 							<span class="text-2xl text-yellow-400">&#9733;</span>
 						</template>
 					</div>
@@ -30,7 +30,7 @@
 				<div class="mb-4 flex items-center gap-3 ">
 					<h4 class="text-md font-bold">Природа:</h4>
 					<div class="rating">
-						<template v-for="star in travel.rating.vegetation">
+						<template v-for="star in travel?.rating?.vegetation">
 							<span class="text-2xl text-yellow-400">&#9733;</span>
 						</template>
 					</div>
@@ -63,47 +63,43 @@
 
 <script setup>
 import { ref, onMounted } from 'vue';
-import { center } from '@/map.js';
+import { useRoute } from 'vue-router';
+import axios from 'axios';
 
-const travel = ref({
-	title: 'Дубай',
-	description: 'Я в Дубай лмао',
-	geolocation: center,
-	imgUrl: 'https://planetofhotels.com/guide/sites/default/files/styles/node__blog_post__bp_banner/public/2020-05/dubaj-informatsiya-dlya-turistov.jpg',
-	price: 40000,
-	rating: {
-		security: 4,
-		movement: 5,
-		population: 4,
-		vegetation: 4,
-	},
-	placeForVisit: ['бурдж халиф'],
-	placeCulture: ['бурдж халиф'],
-});
+const route = useRoute();
 
-const averageRating = ref(
-	Math.round(
-		(travel.value.rating.security +
-			travel.value.rating.movement +
-			travel.value.rating.population +
-			travel.value.rating.vegetation) /
-		4
-	)
-);
+const travel = ref({});
+const averageRating = ref(0);
+
+function getAverageRating({ security, movement, population, vegetation }) {
+	return Math.round((security + movement + population + vegetation) / 4);
+}
 
 onMounted(() => {
-	ymaps.ready(() => {
-		const map = new ymaps.Map('map', {
-			center: travel.value.geolocation,
-			zoom: 12,
-		});
+	axios.get(`${import.meta.env.VITE_APP_BASE_URL}/travel?id=${route.params.id}`)
+		.then(response => {
+			travel.value = response.data;
+			averageRating.value = getAverageRating(response.data.rating);
 
-		const placemark = new ymaps.Placemark(travel.value.geolocation, {
-			hintContent: travel.value.title,
-		});
+			return true;
+		})
+		.then(() => {
+			ymaps.ready(() => {
+				const map = new ymaps.Map('map', {
+					center: travel.value.geolocation,
+					zoom: 12,
+				});
 
-		map.geoObjects.add(placemark);
-	});
+				const placemark = new ymaps.Placemark(travel.value.geolocation, {
+					hintContent: travel.value.title,
+				});
+
+				map.geoObjects.add(placemark);
+			});
+		})
+		.catch(error => {
+			console.error(error);
+		})
 });
 </script>
 

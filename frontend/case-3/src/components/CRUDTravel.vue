@@ -149,6 +149,7 @@ import { defineProps, ref, onMounted } from 'vue';
 import { useRouter, useRoute } from 'vue-router';
 import axios from 'axios';
 import Button from '@/components/Button.vue';
+import { center } from '@/map.js';
 
 const props = defineProps(['title', 'btnText', 'isEdit']);
 const router = useRouter();
@@ -171,6 +172,10 @@ let travel = ref({
 	placeCulture: '',
 	placeForVisit: '',
 });
+
+let map;
+let objectManager;
+let objectCounter = 0;
 
 function inputNumber(event) {
 	const inputValue = event.target.value;
@@ -215,11 +220,34 @@ function btnClick() {
 
 onMounted(() => {
 	ymaps.ready(init);
-    function init(){
-        const myMap = new ymaps.Map("map", {
-            center: [55.76, 37.64],
-            zoom: 7
-        });
+
+	function init () {
+        map = new ymaps.Map("map", {
+            center,
+            zoom: 10
+        }, {
+			searchControlProvider: 'yandex#search'
+		});
+
+        objectManager = new window.ymaps.ObjectManager();
+
+		map.events.add("click", function(e) {
+			const coords = e.get("coords");
+			objectManager.removeAll();
+
+			objectManager.add({
+				type: 'Feature',
+				id: objectCounter,
+				geometry: {
+					type: 'Point',
+					coordinates: coords
+				},
+			});
+
+			objectCounter += 1;
+			map.geoObjects.add(objectManager);
+			console.log(coords);
+		});
     }
 
 	if (props.isEdit) {

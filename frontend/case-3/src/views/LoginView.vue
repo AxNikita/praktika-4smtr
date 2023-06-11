@@ -71,15 +71,9 @@ function authorization() {
 		};
 
 		axios.post(`${import.meta.env.VITE_APP_BASE_URL}/auth`, payload)
-			.then(data => {
-				if (data.status === 204) {
-					localStorage.setItem('isAdmin', true);
-					localStorage.setItem('login', 'admin');
-					router.push('admin');
-				} else {
-					localStorage.setItem('login', login.value);
-					router.push('/')
-				}
+			.then(() => {
+				localStorage.setItem('login', login.value);
+				router.push('/')
 			})
 			.catch(error => {
 				console.error(error);

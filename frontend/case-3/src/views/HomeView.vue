@@ -18,15 +18,18 @@ import TravelCard from '@/components/TravelCard.vue';
 
 let travelsList = ref([]);
 
-async function initTravels() {
-	axios.get(`${import.meta.env.VITE_APP_BASE_URL}/db-init`);
+function initTravels() {
+	axios.get(`${import.meta.env.VITE_APP_BASE_URL}/db-init`)
+		.then(() => {
+			fetchTravels()
+		});
 }
 
 function fetchTravels() {
 	axios.get(`${import.meta.env.VITE_APP_BASE_URL}/travels`)
 		.then(async (data) => {
 			if (data.data.length === 0) {
-				await initTravels();
+				initTravels();
 			}
 
 			travelsList.value = [...data.data];

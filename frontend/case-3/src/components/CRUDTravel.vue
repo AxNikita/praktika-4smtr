@@ -2,12 +2,19 @@
 	<div class="px-4 pb-4">
 		<div class="flex justify-between">
 			<h2 class="text-2xl font-bold mb-4">{{ title }}</h2>
-			<div>
+			<div class="flex items-center gap-2">
 				<Button
 					:isPrimary="true"
 					@click="btnClick"
 				>
 					{{ btnText }}
+				</Button>
+				<Button
+					v-if="isEdit"
+					:isDanger="true"
+					@click="deleteClick"
+				>
+					Удалить
 				</Button>
 			</div>
 		</div>
@@ -19,7 +26,7 @@
 
 				<div class="flex flex-col gap-4 mt-4">
 					<div>
-						<label for="placevisit">Посещённые места</label>
+						<label for="placevisit">Посещённые места (через запятую)</label>
 						<input
 							v-model="travel.placeForVisit"
 							type="text"
@@ -29,9 +36,9 @@
 						/>
 					</div>
 					<div>
-						<label for="placecultrure">Культурные объекты</label>
+						<label for="placecultrure">Культурные объекты (через запятую)</label>
 						<input
-							v-model="travel.placeForVisit"
+							v-model="travel.placeCulture"
 							type="text"
 							id="placecultrure"
 							class="form-input w-full mt-1"
@@ -155,6 +162,8 @@ const props = defineProps(['title', 'btnText', 'isEdit']);
 const router = useRouter();
 const route = useRoute();
 
+const login = localStorage.getItem('login');
+
 let travel = ref({
 	title: '',
 	description: '',
@@ -167,8 +176,6 @@ let travel = ref({
 		population: null,
 		vegetation: null,
 	},
-	// placeForVisit: [],
-	// placeCulture: [],
 	placeCulture: '',
 	placeForVisit: '',
 });
@@ -183,31 +190,46 @@ function inputNumber(event) {
 }
 
 function createTravel() {
-	// let payload = JSON.parse(JSON.stringify(book.value));
-	// payload.category = [payload.category];
-	// payload.date = payload.year;
+	let payload = JSON.parse(JSON.stringify(travel.value));
 
-	// axios.post(`${import.meta.env.VITE_APP_BASE_URL}/book`, payload)
-	// 	.then(() => {
-	// 		router.push('/admin');
-	// 	})
-	// 	.catch(error => {
-	// 		console.log('error >>>', error);
-	// 	})
+	payload.placeCulture = payload.placeCulture.split(',');
+	payload.placeForVisit = payload.placeForVisit.split(',');
+	payload.geolocation = payload.geolocation.map(coord => `${coord}`);
+	payload.author = login;
+
+	axios.post(`${import.meta.env.VITE_APP_BASE_URL}/travel`, payload)
+		.then(() => {
+			router.push('/profile');
+		})
+		.catch(error => {
+			console.log('error >>>', error);
+		});
 }
 
 function updateTravel() {
-	// let payload = JSON.parse(JSON.stringify(book.value));
-	// payload.category = [payload.category];
-	// payload.date = payload.year;
+	let payload = JSON.parse(JSON.stringify(travel.value));
 
-	// axios.put(`${import.meta.env.VITE_APP_BASE_URL}/book?id=${route.params.id}`, payload)
-	// 	.then(() => {
-	// 		router.push('/admin');
-	// 	})
-	// 	.catch(error => {
-	// 		console.log('error >>>', error);
-	// 	})
+	payload.placeCulture = payload.placeCulture.split(',');
+	payload.placeForVisit = payload.placeForVisit.split(',');
+	payload.geolocation = payload.geolocation.map(coord => `${coord}`);
+
+	axios.put(`${import.meta.env.VITE_APP_BASE_URL}/travel?id=${route.params.id}`, payload)
+		.then(() => {
+			router.push('/profile');
+		})
+		.catch(error => {
+			console.log('error >>>', error);
+		});
+}
+
+function deleteClick() {
+	axios.delete(`${import.meta.env.VITE_APP_BASE_URL}/travel?id=${travel.value.id}`)
+		.then(() => {
+			router.push('/profile');
+		})
+		.catch(error => {
+			console.log(error);
+		});
 }
 
 function btnClick() {
@@ -246,20 +268,36 @@ onMounted(() => {
 
 			objectCounter += 1;
 			map.geoObjects.add(objectManager);
-			console.log(coords);
 		});
+
+		if (props.isEdit) {
+			setTimeout(() => {
+				objectManager.add({
+					type: 'Feature',
+					id: objectCounter,
+					geometry: {
+						type: 'Point',
+						coordinates: travel.value.geolocation,
+					},
+				});
+
+				objectCounter += 1;
+				map.geoObjects.add(objectManager);
+				map.setCenter(travel.value.geolocation);
+			}, 1);
+		}
     }
 
 	if (props.isEdit) {
-		// axios.get(`${import.meta.env.VITE_APP_BASE_URL}/book?id=${route.params.id}`)
-		// 	.then(data => {
-		// 		book.value = data.data;
-		// 		book.value.category = book.value.category[0];
-		// 		book.value.year = book.value.date.slice(-4);
-		// 	})
-		// 	.catch(error => {
-		// 		console.log('error >>>', error);
-		// 	})
+		axios.get(`${import.meta.env.VITE_APP_BASE_URL}/travel?id=${route.params.id}`)
+			.then(response => {
+				travel.value = response.data;
+				travel.value.placeCulture = travel.value.placeCulture.join(', ');
+				travel.value.placeForVisit = travel.value.placeForVisit.join(', ');
+			})
+			.catch(error => {
+				console.log('error >>>', error);
+			});
 	}
 });
 </script>

@@ -1,7 +1,11 @@
 <template>
 	<header>
-		<RouterLink class="text-lg" to="/">
-			Travel
+		<RouterLink class="flex gap-2 items-center hover:underline text-2xl" to="/">
+			<img
+				src="@/assets/img/logo.png"
+				class="w-12 h-12 rounded-md"
+			/>
+			<span>Truevels</span>
 		</RouterLink>
 		<nav class="flex items-center">
 			<RouterLink
@@ -73,7 +77,7 @@ onBeforeUnmount(() => {
 
 <style scoped>
 header {
-	background-color: #333;
+	background-color: #220022;
 	@apply flex justify-between items-center text-white p-4;
 }
 

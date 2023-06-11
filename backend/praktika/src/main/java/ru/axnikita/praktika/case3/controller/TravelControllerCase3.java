@@ -22,20 +22,21 @@ public class TravelControllerCase3 {
     @GetMapping("/db-init")
     public ResponseEntity<String> initBookDB() {
         try {
-            travelRepository.save(TravelEntityCase3.defaultTravelOf("user1", "Egypt", "egregegeegerg",
-                    List.of("rewrwe", "ergergerg"), "http://localhost:/eger", 100,
-                    new Rating(5, 5, 5, 5), List.of("4864", "dvav"),
-                    List.of("sadasdasd", "dfvsfsdf")));
+            travelRepository.save(TravelEntityCase3.defaultTravelOf("user1", "Дубай", "Я в Дубай лмао",
+                    List.of("25.229762", "55.289311"),
+                    "https://planetofhotels.com/guide/sites/default/files/styles/node__blog_post__bp_banner/public/2020-05/dubaj-informatsiya-dlya-turistov.jpg",
+                    40000,
+                    new Rating(4, 5, 4, 4),
+                    List.of("бурдж халиф"),
+                    List.of("бурдж халиф")));
 
-            travelRepository.save(TravelEntityCase3.defaultTravelOf("user2", "Russia", "egregegeegerg",
-                    List.of("rewrwe", "ergergerg"), "http://localhost:/eger", 100000000,
-                    new Rating(5, 5, 5, 5), List.of("4864", "dvav"),
-                    List.of("sadasdasd", "dfvsfsdf")));
-
-            travelRepository.save(TravelEntityCase3.defaultTravelOf("user2", "Kazakhstan", "egregegeegerg",
-                    List.of("rewrwe", "ergergerg"), "http://localhost:/eger", 100555,
-                    new Rating(5, 5, 5, 5), List.of("4864", "dvav"),
-                    List.of("sadasdasd", "dfvsfsdf")));
+            travelRepository.save(TravelEntityCase3.defaultTravelOf("user1", "Алматы", "чо за дыра?",
+                    List.of("43.237163", "76.945627"),
+                    "https://s3.eu-central-1.amazonaws.com/aviata-blog-2.0/posts/thumbnails/0_%D0%BA%D0%B0%D1%80%D1%82%D0%B8%D0%BD%D0%BA%D0%B8.png.webp",
+                    30000,
+                    new Rating(1, 1, 1, 1),
+                    List.of("публичный дом"),
+                    List.of("памятник ежа")));
         } catch (Exception e) {
             return ResponseEntity.internalServerError().build();
         }

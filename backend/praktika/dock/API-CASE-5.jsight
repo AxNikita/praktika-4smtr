@@ -1,0 +1,140 @@
+JSIGHT 0.3
+
+INFO
+  Title "Производственная практика 4 семестр CASE-5"
+  Version 1.0
+
+#---------------------- /Authentification -----------------------
+
+POST /case5/auth           // Метод аутеннтификации пользователя
+  Request @auth
+  200 empty          // 1. Пользователь аутентифицирован корректно.
+                     // 2. Пользователь ранее не существовал, создан корректно, аутентификация прошла успешно
+                     // 3. В теле ответа отправляется тип пользователя USER/DOCTOR
+  204 empty          // Данные пользователя соответствуют пользователю-админ
+  401 empty          // Ошибка аутентификации - невалидные данные
+  500 empty          // Пользователь не может быть создан на сервере
+
+
+#---------------------- /Doctor -----------------------
+
+GET /case5/doctor              // Метод получения врача по id
+  Query "id=doctor_id"
+  {
+    "id": "doctor_id" // {type: "long"}
+  }
+  200 @doctor                // Врач получен
+  500 empty                  // Ошибка получения врача
+
+
+GET /case5/doctors             // Метод получения всех врачей
+  200 [@doctor]                // Список врачей
+  500 empty                    // Ошибка получения врачей
+
+
+POST /case5/doctor           // Метод сохранения врача.
+  Request @doctor
+  200 empty                  // Врач сохранен успешно
+  500 empty                  // Ошибка сохранения врача
+
+
+PUT /case5/doctor            // Метод редактирования врача
+  Request @doctor
+  200 empty                  // Врач отредактирован успешно
+  500 empty                  // Ошибка редактирования врача
+
+
+DELETE /case5/doctor         // Метод удаления врача.
+  Query "id=doctor_id"
+  {
+    "id": "doctor_id" // {type: "long"}
+  }
+  200 empty                  // Врач удален успешно
+  500 empty                  // Ошибка удаления врача
+
+
+
+#---------------------- /Patient-Card -----------------------
+
+GET /case5/patient-card-doctor              // Метод получения карты пациента по id врача
+  Query "doctorId=doctor_id"
+  {
+    "doctorId": "doctor_id" // {type: "long"}
+  }
+  200 [@card]                  // Список карт получен успешно
+  500 empty                    // Ошибка получения списка карт
+
+
+GET /case5/patient-card-patient              // Метод получения карты пациента по id пациента
+  Query "patientId=patient_id"
+  {
+    "patientId": "patient_id" // {type: "long"}
+  }
+  200 [@card]                  // Список карт получен успешно
+  500 empty                    // Ошибка получения списка карт
+
+
+GET /case5/patient-cards              // Метод получения всех карт пациентов
+  200 [@card]                         // Список карт получен успешно
+  500 empty                           // Ошибка получения списка карт
+
+
+POST /case5/patient-card           // Метод создания карточки пациента/записи к врачу.
+  Request @card
+  200 empty                  // Карта создана успешно
+  500 empty                  // Ошибка создания карты
+
+
+PUT /case5/patient-card            // Метод редактирования карты
+  Query "id=card_id"
+  {
+    "id": "card_id" // {type: "long"}
+  }
+  Request @card
+  200 empty                        // Карта отредактирована успешно
+  500 empty                        // Ошибка редактирования карты
+
+
+DELETE /case5/patient-card         // Метод удаления карты
+  Query "id=card_id"
+  {
+    "id": "card_id" // {type: "long"}
+  }
+  Request @card
+  200 empty                        // Карта удалена успешно
+  500 empty                        // Ошибка удаления карты
+
+
+#======================== TYPES ==========================
+
+TYPE @auth // Модель пользователь
+{
+  "login": "user_login",
+  "password": "user_password"
+}
+
+TYPE @doctor // Модель врача
+{
+    "id": "id",
+    "login": "user1",
+    "password": "pass",
+    "type": "type",
+    "name": "Ivan",
+    "department": "department",
+    "qualification": "qualification",
+    "services": [
+        "serv1",
+        "serv1"
+    ]
+}
+
+TYPE @card // Модель врача
+{
+    "id": "id",
+    "patient": "patient",
+    "doctor": "doctor",
+    "service": "service",
+    "description": "description",
+    "date": "date",
+    "status": "status"
+}

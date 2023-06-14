@@ -14,44 +14,51 @@ const router = createRouter({
     {
       path: '/login',
       name: 'login',
-      component: () => import('../views/LoginView.vue')
+      component: () => import('../views/LoginView.vue'),
     },
     {
-      path: '/admin',
-      name: 'admin',
-      component: () => import('../views/AdminView.vue'),
+      path: '/doctors',
+      name: 'doctors',
+      component: () => import('../views/DoctorsView.vue'),
       meta: {
-        onlyAdmin: true,
         auth: true,
-      },
-    },
-    {
-      path: '/admin/create-book',
-      name: 'createBook',
-      component: () => import('../views/CreateBookView.vue'),
-      meta: {
         onlyAdmin: true,
-        auth: true,
-      },
+      }
     },
     {
-      path: '/admin/edit-book/:id',
-      name: 'editBook',
-      component: () => import('../views/EditBookView.vue'),
+      path: '/edit-doctor/:id',
+      name: 'edit-doctor',
+      component: () => import('../views/EditDoctorView.vue'),
       meta: {
+        auth: true,
         onlyAdmin: true,
-        auth: true,
-      },
+      }
     },
     {
-      path: '/profile',
-      name: 'profile',
-      component: () => import('../views/ProfileView.vue'),
+      path: '/create-doctor',
+      name: 'create-doctor',
+      component: () => import('../views/CreateDoctorView.vue'),
       meta: {
-        onlyUser: true,
+        auth: true,
+        onlyAdmin: true,
+      }
+    },
+    {
+      path: '/medical-card',
+      name: 'medical-card',
+      component: () => import('../views/MyMedicalCardView.vue'),
+      meta: {
         auth: true,
       }
     },
+    {
+      path: '/patients',
+      name: 'patients',
+      component: () => import('../views/PatientsView.vue'),
+      meta: {
+        auth: true,
+      }
+    }
   ]
 });
 

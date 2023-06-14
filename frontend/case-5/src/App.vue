@@ -1,13 +1,13 @@
 <script setup>
 import { RouterView } from 'vue-router';
-import Header from '@/components/Header.vue';
+import Sidebar from '@/components/Sidebar.vue';
 </script>
 
 <template>
-  <div class="bg-gray-100 min-h-screen">
-    <Header />
+  <div class="bg-gray-100 min-h-screen flex ">
+    <Sidebar />
 
-    <main class="max-w-screen-xl mb-0 mt-6 mx-auto">
+    <main class="mb-0 mt-6 px-6 w-full">
       <RouterView />
     </main>
   </div>

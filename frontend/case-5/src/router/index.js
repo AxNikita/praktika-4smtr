@@ -22,7 +22,6 @@ const router = createRouter({
       component: () => import('../views/DoctorsView.vue'),
       meta: {
         auth: true,
-        onlyAdmin: true,
       }
     },
     {

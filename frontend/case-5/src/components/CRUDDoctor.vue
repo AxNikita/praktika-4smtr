@@ -2,7 +2,7 @@
 	<div class="p-5 max-w-2xl mx-auto">
 		<h2 class="text-2xl font-bold mb-4">Создание доктора</h2>
 
-		<form class="flex flex-col gap-4 mt-5">
+		<div class="flex flex-col gap-4 mt-5">
 			<div class="flex flex-col">
 				<label for="name" class="label">Имя:</label>
 				<input type="text" id="name" class="input" v-model="doctor.name">
@@ -23,8 +23,18 @@
 				<input type="text" id="qualification" class="input" v-model="doctor.qualification">
 			</div>
 
-			<button class="rounded-md py-2.5 px-5 bg-blue-600 hover:bg-blue-700 text-white" @click="createDoctor">Создать</button>
-		</form>
+			<div class="flex flex-col">
+				<label for="login" class="label">Логин:</label>
+				<input type="text" id="login" class="input" v-model="doctor.login">
+			</div>
+
+			<div class="flex flex-col">
+				<label for="password" class="label">Пароль:</label>
+				<input type="password" id="password" class="input" v-model="doctor.password">
+			</div>
+
+			<button class="rounded-md py-2.5 px-5 bg-blue-600 hover:bg-blue-700 text-white" @click="btnClick">{{ btnText }}</button>
+		</div>
 	</div>
 </template>
 
@@ -43,40 +53,37 @@ let doctor = ref({
 	name: '',
 	department: '',
 	services: '',
-	qualification: ''
+	qualification: '',
+	login: '',
+	password: '',
 });
 
 function createDoctor() {
-	// let payload = JSON.parse(JSON.stringify(travel.value));
+	let payload = JSON.parse(JSON.stringify(doctor.value));
 
-	// payload.placeCulture = payload.placeCulture.split(',');
-	// payload.placeForVisit = payload.placeForVisit.split(',');
-	// payload.geolocation = payload.geolocation.map(coord => `${coord}`);
-	// payload.author = login;
+	payload.services = payload.services.split(',');
 
-	// axios.post(`${import.meta.env.VITE_APP_BASE_URL}/travel`, payload)
-	// 	.then(() => {
-	// 		router.push('/profile');
-	// 	})
-	// 	.catch(error => {
-	// 		console.log('error >>>', error);
-	// 	});
+	axios.post(`${import.meta.env.VITE_APP_BASE_URL}/doctor`, payload)
+		.then(() => {
+			router.push('/doctors');
+		})
+		.catch(error => {
+			console.log('error >>>', error);
+		});
 }
 
 function updateDoctor() {
-	// let payload = JSON.parse(JSON.stringify(travel.value));
+	let payload = JSON.parse(JSON.stringify(doctor.value));
 
-	// payload.placeCulture = payload.placeCulture.split(',');
-	// payload.placeForVisit = payload.placeForVisit.split(',');
-	// payload.geolocation = payload.geolocation.map(coord => `${coord}`);
+	payload.services = payload.services.split(',');
 
-	// axios.put(`${import.meta.env.VITE_APP_BASE_URL}/travel?id=${route.params.id}`, payload)
-	// 	.then(() => {
-	// 		router.push('/profile');
-	// 	})
-	// 	.catch(error => {
-	// 		console.log('error >>>', error);
-	// 	});
+	axios.put(`${import.meta.env.VITE_APP_BASE_URL}/doctor?id=${route.params.id}`, payload)
+		.then(() => {
+			router.push('/doctors');
+		})
+		.catch(error => {
+			console.log('error >>>', error);
+		});
 }
 
 function btnClick() {
@@ -89,15 +96,14 @@ function btnClick() {
 
 onMounted(() => {
 	if (props.isEdit) {
-		// axios.get(`${import.meta.env.VITE_APP_BASE_URL}/travel?id=${route.params.id}`)
-		// 	.then(response => {
-		// 		travel.value = response.data;
-		// 		travel.value.placeCulture = travel.value.placeCulture.join(', ');
-		// 		travel.value.placeForVisit = travel.value.placeForVisit.join(', ');
-		// 	})
-		// 	.catch(error => {
-		// 		console.log('error >>>', error);
-		// 	});
+		axios.get(`${import.meta.env.VITE_APP_BASE_URL}/doctor?id=${route.params.id}`)
+			.then(response => {
+				doctor.value = response.data;
+				doctor.value.services = doctor.value.services.join(', ');
+			})
+			.catch(error => {
+				console.log('error >>>', error);
+			});
 	}
 });
 </script>

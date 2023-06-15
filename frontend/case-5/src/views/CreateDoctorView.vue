@@ -2,7 +2,6 @@
 	<CRUDDoctor
 		title="Создание врача"
 		btnText="Сохранить"
-		:isEdit="true"
 	/>
 </template>
 

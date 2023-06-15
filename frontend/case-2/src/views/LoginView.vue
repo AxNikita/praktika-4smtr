@@ -98,5 +98,4 @@ function authorization() {
 .form-input {
 	@apply w-full py-2 px-3 border border-gray-300 rounded focus:outline-none focus:border-blue-400;
 }
-
 </style>

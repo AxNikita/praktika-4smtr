@@ -4,6 +4,7 @@
 			<h2 class="text-2xl font-bold">Список врачей</h2>
 
 			<button
+				v-if="isAdmin"
 				class="flex items-center justify-center w-8 h-8 bg-blue-500 rounded-md hover:bg-blue-600 text-white"
 				@click="router.push('/create-doctor')"
 			>
@@ -15,78 +16,48 @@
 				v-for="doctor in doctors"
 				:key="doctor.id"
 				:doctor="doctor"
-				:isAdmin="true"
+				:isAdmin="isAdmin"
 				@edit="router.push(`/edit-doctor/${doctor.id}`)"
-				@delete="() => {}"
+				@delete="deleteDoctor(doctor.id)"
 			/>
 		</ul>
 	</div>
 </template>
 
 <script setup>
-import { ref } from 'vue';
+import { ref, onMounted } from 'vue';
 import { useRouter } from 'vue-router';
+import axios from 'axios';
 import DoctorCard from '@/components/DoctorCard.vue';
 
 const router = useRouter();
 
-const doctors = ref([
-	{
-		id: 1,
-		name: 'Никитос',
-		department: '1B',
-		services: [
-			"Обрезание уха",
-			"Отбеливание очка",
-			"Бальзамирование Ленина",
-		],
-		qualification: 'Магистр джедай',
-	},
-	{
-		id: 2,
-		name: 'Никитос',
-		department: '1B',
-		services: [
-			"Обрезание уха",
-			"Отбеливание очка",
-			"Бальзамирование Ленина",
-		],
-		qualification: 'Магистр джедай',
-	},
-	{
-		id: 3,
-		name: 'Никитос',
-		department: '1B',
-		services: [
-			"Обрезание уха",
-			"Отбеливание очка",
-			"Бальзамирование Ленина",
-		],
-		qualification: 'Магистр джедай',
-	},
-	{
-		id: 4,
-		name: 'Никитос',
-		department: '1B',
-		services: [
-			"Обрезание уха",
-			"Отбеливание очка",
-			"Бальзамирование Ленина",
-		],
-		qualification: 'Магистр джедай',
-	},
-	{
-		id: 5,
-		name: 'Никитос',
-		department: '1B',
-		services: [
-			"Обрезание уха",
-			"Отбеливание очка",
-			"Бальзамирование Ленина",
-		],
-		qualification: 'Магистр джедай',
-	},
-]);
+const doctors = ref([]);
+const isAdmin = ref(localStorage.getItem('usertype') === 'ADMIN');
+
+function fetchDoctors() {
+	axios.get(`${import.meta.env.VITE_APP_BASE_URL}/doctors`)
+		.then(response => {
+			doctors.value = [...response.data];
+		})
+		.catch(error => {
+			console.log('error >>>', error);
+		})
+}
+
+function deleteDoctor(id) {
+	axios.delete(`${import.meta.env.VITE_APP_BASE_URL}/doctor?id=${id}`)
+		.then(() => {
+			fetchDoctors();
+		})
+		.catch(error => {
+			console.log('error >>>', error);
+		});
+}
+
+onMounted(() => {
+	fetchDoctors();
+});
 </script>
 
 <style scoped>

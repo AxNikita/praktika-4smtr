@@ -2,44 +2,23 @@
 	<div class="sidebar flex flex-col bg-gray-800 text-white">
 		<div class="logo py-4 px-6 text-2xl font-bold mb-6">Logotype</div>
 		<ul class="menu flex flex-col space-y-4">
-			<li>
+			<li
+				v-for="link in links"
+			>
 				<RouterLink
-					to="/"
+					:to="link.link"
 					class="block py-2 px-6 hover:bg-gray-700"
-					:class="{ 'hover:bg-gray-700': $route.path === '/' }"
+					:class="{ 'hover:bg-gray-700': $route.path === link.link }"
 				>
-					Главная
+					{{ link.label }}
 				</RouterLink>
 			</li>
 			<li>
-				<RouterLink
-					to="/doctors"
-					class="block py-2 px-6 hover:bg-gray-700"
-					:class="{ 'hover:bg-gray-700': $route.path === '/doctors' }"
+				<button
+					v-if="$route.path !== '/login'"
+					class="w-full block py-2 px-6 text-left hover:bg-gray-700"
+					@click="logout"
 				>
-					Список врачей
-				</RouterLink>
-			</li>
-			<li>
-				<RouterLink
-					to="/patients"
-					class="block py-2 px-6 hover:bg-gray-700"
-					:class="{ 'hover:bg-gray-700': $route.path === '/doctors' }"
-				>
-					Пациенты
-				</RouterLink>
-			</li>
-			<li>
-				<RouterLink
-					to="/medical-card"
-					class="block py-2 px-6 hover:bg-gray-700"
-					:class="{ 'hover:bg-gray-700': $route.path === '/medical-card' }"
-				>
-					Медицинская карта
-				</RouterLink>
-			</li>
-			<li>
-				<button class="w-full block py-2 px-6 text-left hover:bg-gray-700">
 					Выйти
 				</button>
 			</li>
@@ -48,15 +27,26 @@
 </template>
 
 <script setup>
-import { onMounted, ref } from 'vue';
-import { RouterLink } from 'vue-router';
+import { onMounted, onBeforeUnmount, ref } from 'vue';
+import { RouterLink, useRouter } from 'vue-router';
+
+const router = useRouter();
 
 const links = ref([]);
+let timer = null;
 
-onMounted(() => {
-	const isAdmin = localStorage.getItem('login') === 'admin';
-	const isUser = localStorage.getItem('login') === 'user';
-	const isDoctor = localStorage.getItem('login') === 'doctor';
+function logout() {
+	localStorage.clear();
+	links.value = [];
+	router.push('/login');
+}
+
+function updateLinks() {
+	const isAdmin = localStorage.getItem('usertype') === 'ADMIN';
+	const isUser = localStorage.getItem('usertype') === 'USER';
+	const isDoctor = localStorage.getItem('usertype') === 'DOCTOR';
+
+	links.value = [];
 
 	if (isAdmin || isUser) {
 		links.value.push({
@@ -78,6 +68,16 @@ onMounted(() => {
 			label: 'Пациенты'
 		});
 	}
+}
+
+onMounted(() => {
+	updateLinks();
+
+	timer = setInterval(updateLinks, 1000);
+});
+
+onBeforeUnmount(() => {
+	clearInterval(timer);
 });
 </script>
 

@@ -20,7 +20,7 @@ public class PatientCardControllerCase5 {
     }
 
     @GetMapping("/patient-card-doctor")
-    public ResponseEntity<List<PatientCardEntityCase5>> findCardsByDoctor(@RequestParam long doctorId) {
+    public ResponseEntity<List<PatientCardEntityCase5>> findAllCardsByDoctor(@RequestParam long doctorId) {
 
         List<PatientCardEntityCase5> found = patientCardRepositoryCase5.findAll();
 
@@ -30,7 +30,7 @@ public class PatientCardControllerCase5 {
     }
 
     @GetMapping("/patient-card-patient")
-    public ResponseEntity<List<PatientCardEntityCase5>> findCardsByPatient(@RequestParam long patientId) {
+    public ResponseEntity<List<PatientCardEntityCase5>> findAllCardsByPatient(@RequestParam long patientId) {
 
         List<PatientCardEntityCase5> found = patientCardRepositoryCase5.findAll();
 

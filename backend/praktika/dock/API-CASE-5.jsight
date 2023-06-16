@@ -128,11 +128,13 @@ TYPE @doctor // Модель врача
     ]
 }
 
-TYPE @card // Модель врача
+TYPE @card // Модель мед. карты
 {
     "id": "id",
     "patient": "patient",
     "doctor": "doctor",
+    "name": "фио",
+    "address": "address",
     "service": "service",
     "description": "description",
     "date": "date",

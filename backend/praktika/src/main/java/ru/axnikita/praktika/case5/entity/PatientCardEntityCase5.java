@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity
-@Table(name = "patientcard")
+@Table(name = "patientcards")
 @AllArgsConstructor
 @NoArgsConstructor(force = true)
 @Getter
@@ -22,6 +22,12 @@ public class PatientCardEntityCase5 {
 
     @Column(name = "doctor")
     private Long doctor;
+
+    @Column(name = "name")
+    private String name;
+
+    @Column(name = "address")
+    private String address;
 
     @Column(name = "service")
     private String service;
@@ -39,6 +45,8 @@ public class PatientCardEntityCase5 {
         this.id = id;
         this.patient = entity.getPatient();
         this.doctor = entity.getDoctor();
+        this.name = entity.getName();
+        this.address = entity.getAddress();
         this.service = entity.getService();
         this.description = entity.getDescription();
         this.date = entity.getDate();

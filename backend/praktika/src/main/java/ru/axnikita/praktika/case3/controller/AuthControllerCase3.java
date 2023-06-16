@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import ru.axnikita.praktika.case3.entity.UserEntityCase3;
 import ru.axnikita.praktika.case3.repository.UserRepositoryCase3;
-import ru.axnikita.praktika.model.Auth;
+import ru.axnikita.praktika.case1.model.Auth;
 
 @RestController
 @RequestMapping("/case3")

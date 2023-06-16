@@ -1,0 +1,124 @@
+JSIGHT 0.3
+
+INFO
+  Title "Производственная практика 4 семестр CASE-3"
+  Version 1.0
+
+#---------------------- /Authentification -----------------------
+
+POST /case4/auth           // Метод аутеннтификации пользователя
+  Request @auth
+  200 empty          // Пользователь аутентифицирован корректно
+  204 empty          // Данные пользователя соответствуют пользователю-админ
+  401 empty          // Ошибка аутентификации - невалидные данные
+
+
+#---------------------- /User -----------------------
+
+
+GET /case4/user              // Метод получения пользователя по id
+  Query "id=user_id"
+  {
+    "id": "user_id" // {type: "long"}
+  }
+  200 @user                  // Пользователь получен
+  500 empty                  // Ошибка получения пользователя
+
+
+POST /case4/user             // Метод сохранения пользователя.
+  Request @user
+  200 empty                  // Пользователь сохранен успешно
+  500 empty                  // Ошибка сохранения пользователя
+
+
+PUT /case4/user            // Метод редактирования пользователя по id
+  Query "id=user_id"
+  {
+    "id": "user_id" // {type: "long"}
+  }
+  Request @user
+  200 empty                  // пользователь отредактирован успешно
+  500 empty                  // Ошибка редактирования пользователя
+
+
+DELETE /case4/user         // Метод удаления пользователя.
+  Query "id=user_id"
+  {
+    "id": "user_id" // {type: "long"}
+  }
+  200 empty                  // Пользователь удален успешно
+  500 empty                  // Ошибка удаления пользователя
+
+
+GET /case4/users             // Метод получения всех пользователей
+  200 [@user]                // Список пользователей
+  500 empty                  // Ошибка получения пользователей
+
+
+#---------------------- /User -----------------------
+
+
+GET /case4/project              // Метод получения проекта по id
+  Query "id=project_id"
+  {
+    "id": "project_id" // {type: "long"}
+  }
+  200 @project                  // Проект получен
+  500 empty                     // Ошибка получения проекта
+
+
+POST /case4/project             // Метод сохранения проекта.
+  Request @project
+  200 empty                     // Проект сохранен успешно
+  500 empty                     // Ошибка сохранения проекта
+
+
+PUT /case4/project            // Метод редактирования проекта по id
+  Query "id=project_id"
+  {
+    "id": "project_id" // {type: "long"}
+  }
+  Request @project
+  200 empty                  // проект отредактирован успешно
+  500 empty                  // Ошибка редактирования проекта
+
+
+DELETE /case4/project         // Метод удаления проекта.
+  Query "id=project_id"
+  {
+    "id": "project_id" // {type: "long"}
+  }
+  200 empty                  // Проект удален успешно
+  500 empty                  // Ошибка удаления ghjtrnf
+
+
+GET /case4/projects             // Метод получения всех проектов
+  200 [@project]                // Список проектов
+  500 empty                     // Ошибка получения проектов
+
+#======================== TYPES ==========================
+
+TYPE @auth // Модель пользователь
+{
+  "login": "user_login",
+  "password": "user_password"
+}
+
+
+TYPE @user // Модель пользователя
+{
+    "id": "id",
+    "login": "login",
+    "password": "password",
+    "projects": ["1", "2"]
+}
+
+
+TYPE @project // Модель проекта
+{
+    "id": "id",
+    "title": "title",
+    "description": "description",
+    "status": "status",
+    "users": ["1", "2"]
+}

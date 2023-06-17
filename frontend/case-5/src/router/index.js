@@ -57,6 +57,14 @@ const router = createRouter({
       meta: {
         auth: true,
       }
+    },
+    {
+      path: '/patient/:login',
+      name: 'patient',
+      component: () => import('../views/PatientView.vue'),
+      meta: {
+        auth: true,
+      }
     }
   ]
 });

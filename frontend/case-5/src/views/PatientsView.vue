@@ -10,59 +10,34 @@
 				:patient="patient"
 				:isAdmin="true"
 				@edit="router.push(`/edit-user/${patient.id}`)"
-				@delete="() => {}"
 			/>
 		</ul>
 	</div>
 </template>
 
 <script setup>
-import { ref } from 'vue';
+import { ref, onMounted } from 'vue';
 import { useRouter } from 'vue-router';
+import axios from 'axios';
 import PatientCard from '@/components/PatientCard.vue';
+
+const login = localStorage.getItem('login');
 
 const router = useRouter();
 
-const patients = ref([
-	{
-		id: 1,
-		fullName: 'Иванов Иван Иванович',
-		records: [
-			{ id: 1, date: '2023-06-01', doctor: 'Доктор Петров', service: 'Общий прием' },
-			{ id: 2, date: '2023-05-28', doctor: 'Доктор Сидорова', service: 'Диагностика' },
-			{ id: 3, date: '2023-05-20', doctor: 'Доктор Иванова', service: 'Лечение зубов' }
-		],
-	},
-	{
-		id: 2,
-		fullName: 'Иванов Иван Иванович',
-		records: [
-			{ id: 1, date: '2023-06-01', doctor: 'Доктор Петров', service: 'Общий прием' },
-			{ id: 2, date: '2023-05-28', doctor: 'Доктор Сидорова', service: 'Диагностика' },
-			{ id: 3, date: '2023-05-20', doctor: 'Доктор Иванова', service: 'Лечение зубов' }
-		],
-	},
-	{
-		id: 3,
-		fullName: 'Иванов Иван Иванович',
-		records: [
-			{ id: 1, date: '2023-06-01', doctor: 'Доктор Петров', service: 'Общий прием' },
-			{ id: 2, date: '2023-05-28', doctor: 'Доктор Сидорова', service: 'Диагностика' },
-			{ id: 3, date: '2023-05-20', doctor: 'Доктор Иванова', service: 'Лечение зубов' }
-		],
-	},
-	{
-		id: 4,
-		fullName: 'Иванов Иван Иванович',
-		records: [
-			{ id: 1, date: '2023-06-01', doctor: 'Доктор Петров', service: 'Общий прием' },
-			{ id: 2, date: '2023-05-28', doctor: 'Доктор Сидорова', service: 'Диагностика' },
-			{ id: 3, date: '2023-05-20', doctor: 'Доктор Иванова', service: 'Лечение зубов' }
-		],
-	},
-]);
+const patients = ref([]);
+
+function fetchPatient() {
+	axios.get(`${import.meta.env.VITE_APP_BASE_URL}/patient-card-doctor?doctor=${login}`)
+		.then(response => {
+			patients.value = [...response.data];
+		})
+		.catch(error => {
+			console.log('error >>>', error);
+		})
+}
+
+onMounted(() => {
+	fetchPatient();
+});
 </script>
-
-<style scoped>
-
-</style>

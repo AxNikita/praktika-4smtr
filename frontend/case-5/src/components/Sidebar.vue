@@ -57,7 +57,7 @@ function updateLinks() {
 
 	if (isUser) {
 		links.value.push({
-			link: '/card',
+			link: '/medical-card',
 			label: 'Медицинская карта'
 		});
 	}

@@ -40,7 +40,7 @@
 								<option
 									v-for="(service, index) in selectedDoctor.services"
 									:key="index"
-									value="service"
+									:value="service"
 								>
 									{{ service }}
 								</option>
@@ -122,7 +122,7 @@ function cancelCreateRecord() {
 function postDataRecord() {
 	const payload = {
 		patient: localStorage.getItem('login'),
-		doctor: selectedDoctor.value.id,
+		doctor: selectedDoctor.value.name,
 		name: selectedDoctor.value.name,
 		address: selectedDoctor.value.department,
 		service: selectedService.value,

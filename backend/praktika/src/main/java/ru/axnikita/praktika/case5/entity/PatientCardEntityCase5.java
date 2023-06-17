@@ -18,10 +18,10 @@ public class PatientCardEntityCase5 {
     private Long id;
 
     @Column(name = "patient")
-    private Long patient;
+    private String patient;
 
     @Column(name = "doctor")
-    private Long doctor;
+    private String doctor;
 
     @Column(name = "name")
     private String name;

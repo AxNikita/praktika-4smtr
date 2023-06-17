@@ -20,21 +20,21 @@ public class PatientCardControllerCase5 {
     }
 
     @GetMapping("/patient-card-doctor")
-    public ResponseEntity<List<PatientCardEntityCase5>> findAllCardsByDoctor(@RequestParam long doctorId) {
+    public ResponseEntity<List<PatientCardEntityCase5>> findAllCardsByDoctor(@RequestParam String doctor) {
 
         List<PatientCardEntityCase5> found = patientCardRepositoryCase5.findAll();
 
-        List<PatientCardEntityCase5> list = found.stream().filter(card -> card.getDoctor() == doctorId).toList();
+        List<PatientCardEntityCase5> list = found.stream().filter(card -> card.getDoctor().equals(doctor)).toList();
 
         return ResponseEntity.ok(list);
     }
 
     @GetMapping("/patient-card-patient")
-    public ResponseEntity<List<PatientCardEntityCase5>> findAllCardsByPatient(@RequestParam long patientId) {
+    public ResponseEntity<List<PatientCardEntityCase5>> findAllCardsByPatient(@RequestParam String patient) {
 
         List<PatientCardEntityCase5> found = patientCardRepositoryCase5.findAll();
 
-        List<PatientCardEntityCase5> list = found.stream().filter(card -> card.getPatient() == patientId).toList();
+        List<PatientCardEntityCase5> list = found.stream().filter(card -> card.getPatient().equals(patient)).toList();
 
         return ResponseEntity.ok(list);
     }

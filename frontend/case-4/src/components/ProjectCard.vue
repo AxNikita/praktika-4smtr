@@ -1,7 +1,7 @@
 <template>
 	<li @click="emitCreateRecord">
 		<div class="doctor-card bg-white rounded-lg p-4 shadow-md relative">
-			<h3 class="text-xl font-bold mb-2">{{ doctor.name }}</h3>
+			<!-- <h3 class="text-xl font-bold mb-2">{{ doctor.name }}</h3>
 			<p class="text-gray-600 mb-2"><strong>Отделение:</strong> {{ doctor.department }}</p>
 			<p class="text-gray-700 mb-2"><strong>Услуги:</strong> {{ doctor.services.join(', ') }}</p>
 			<p class="text-gray-700"><strong>Квалификация:</strong> {{ doctor.qualification }}</p>
@@ -21,22 +21,15 @@
 				>
 					<i class="fa-solid fa-xmark"></i>
 				</button>
-			</div>
+			</div> -->
 		</div>
 	</li>
 </template>
 
 <script setup>
-import { defineProps, defineEmits } from 'vue';
+import { defineProps } from 'vue';
 
-const props = defineProps(['doctor', 'isAdmin']);
-const emit = defineEmits(['createRecord']);
-
-function emitCreateRecord() {
-	if (!props.isAdmin) {
-		emit('createRecord', props.doctor);
-	}
-}
+const props = defineProps(['project', 'isAdmin']);
 </script>
 
 <style scoped>

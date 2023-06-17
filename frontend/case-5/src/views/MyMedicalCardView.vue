@@ -27,7 +27,8 @@
 </template>
 
 <script setup>
-import { ref } from 'vue';
+import { ref, onMounted } from 'vue';
+import axios from 'axios';
 
 const user = ref({
 	id: 1,
@@ -37,5 +38,9 @@ const user = ref({
 		{ id: 2, date: '2023-05-28', doctor: 'Доктор Сидорова', service: 'Диагностика' },
 		{ id: 3, date: '2023-05-20', doctor: 'Доктор Иванова', service: 'Лечение зубов' }
 	],
+});
+
+onMounted(() => {
+	// axios.get(`${import.meta.env.VITE_APP_BASE_URL}/patient-card-patient&`)
 });
 </script>

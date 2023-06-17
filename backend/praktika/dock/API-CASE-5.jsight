@@ -56,19 +56,19 @@ DELETE /case5/doctor         // Метод удаления врача.
 
 #---------------------- /Patient-Card -----------------------
 
-GET /case5/patient-card-doctor              // Метод получения карты пациента по id врача
-  Query "doctorId=doctor_id"
+GET /case5/patient-card-doctor              // Метод получения карты пациента по логину врача
+  Query "doctor=doctor_login"
   {
-    "doctorId": "doctor_id" // {type: "long"}
+    "doctor": "doctor_login" // {type: "string"}
   }
   200 [@card]                  // Список карт получен успешно
   500 empty                    // Ошибка получения списка карт
 
 
-GET /case5/patient-card-patient              // Метод получения карты пациента по id пациента
-  Query "patientId=patient_id"
+GET /case5/patient-card-patient              // Метод получения карты пациента по логину пациента
+  Query "patient=patient_login"
   {
-    "patientId": "patient_id" // {type: "long"}
+    "patient": "patient_login" // {type: "string"}
   }
   200 [@card]                  // Список карт получен успешно
   500 empty                    // Ошибка получения списка карт

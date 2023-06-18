@@ -1,12 +1,12 @@
 <template>
-	<div class="sidebar flex flex-col bg-gray-800 text-white">
+	<div class="sidebar flex flex-col bg-neutral-800 text-white">
 		<div class="logo py-4 px-6 text-2xl font-bold mb-6">Logotype</div>
 		<ul class="menu flex flex-col space-y-4">
 			<li v-for="link in links">
 				<RouterLink
 					:to="link.link"
 					class="block py-2 px-6 hover:bg-gray-700"
-					:class="{ 'hover:bg-gray-700': $route.path === link.link }"
+					:class="{ 'hover:bg-gray-600': $route.path === link.link }"
 				>
 					{{ link.label }}
 				</RouterLink>

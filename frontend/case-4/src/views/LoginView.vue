@@ -75,18 +75,11 @@ function authorization() {
 				const { data, status } = response;
 
 				if (status === 204) {
-					localStorage.setItem('usertype', 'ADMIN');
-				} else {
-					localStorage.setItem('usertype', data);
+					localStorage.setItem('isAdmin', 'true');
 				}
 
 				localStorage.setItem('login', login.value)
-
-				if (data === 'USER' || status === 204) {
-					router.push('/doctors');
-				} else if (data === 'DOCTOR') {
-					router.push('/patients');
-				}
+				router.push('/projects');
 			})
 			.catch(error => {
 				console.error(error);

@@ -3,12 +3,16 @@
 </template>
 
 <script setup>
-import { onMounted } from 'vue';
+import { onMounted, onUpdated } from 'vue';
 import { useRouter } from 'vue-router';
 
 const router = useRouter();
 
 onMounted(() => {
+	router.push('/projects');
+});
+
+onUpdated(() => {
 	router.push('/projects');
 });
 </script>

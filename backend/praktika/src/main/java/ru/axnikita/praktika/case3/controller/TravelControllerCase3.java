@@ -22,7 +22,7 @@ public class TravelControllerCase3 {
     @GetMapping("/db-init")
     public ResponseEntity<String> initBookDB() {
         try {
-            travelRepository.save(TravelEntityCase3.defaultTravelOf("user1", "Дубай", "Я в Дубай лмао",
+            travelRepository.save(TravelEntityCase3.defaultTravelOf("user1", "Дубай", "Мне очень понравилась погода.",
                     List.of("25.229762", "55.289311"),
                     "https://planetofhotels.com/guide/sites/default/files/styles/node__blog_post__bp_banner/public/2020-05/dubaj-informatsiya-dlya-turistov.jpg",
                     40000,
@@ -30,7 +30,7 @@ public class TravelControllerCase3 {
                     List.of("бурдж халиф"),
                     List.of("бурдж халиф")));
 
-            travelRepository.save(TravelEntityCase3.defaultTravelOf("user1", "Алматы", "чо за дыра?",
+            travelRepository.save(TravelEntityCase3.defaultTravelOf("user1", "Алматы", "Очень красивая природа.",
                     List.of("43.237163", "76.945627"),
                     "https://s3.eu-central-1.amazonaws.com/aviata-blog-2.0/posts/thumbnails/0_%D0%BA%D0%B0%D1%80%D1%82%D0%B8%D0%BD%D0%BA%D0%B8.png.webp",
                     30000,

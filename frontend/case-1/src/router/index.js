@@ -38,6 +38,11 @@ const router = createRouter({
       name: 'editPost',
       component: () => import('../views/EditPostView.vue')
     },
+    {
+      path: '/tags/:tag',
+      name: 'tag',
+      component: () => import('../views/TagView.vue')
+    },
   ]
 });
 

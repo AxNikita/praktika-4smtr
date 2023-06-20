@@ -10,10 +10,8 @@
 
 			<div class="flex flex-col">
 				<label for="password" class="label">Пароль:</label>
-				<input type="text" id="password" class="input" v-model="user.password">
+				<input type="password" id="password" class="input" v-model="user.password">
 			</div>
-
-			<!-- select projects -->
 
 			<button class="rounded-md py-2.5 px-5 bg-blue-600 hover:bg-blue-700 text-white" @click="btnClick">{{ btnText }}</button>
 		</div>

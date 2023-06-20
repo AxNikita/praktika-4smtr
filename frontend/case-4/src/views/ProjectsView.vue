@@ -14,7 +14,9 @@
 			<ProjectCard
 				v-for="project in projects"
 				:key="project.id"
-				:user="project"
+				:project="project"
+				@delete="deleteProject"
+				@edit="editProject"
 			/>
 		</ul>
 	</div>
@@ -48,6 +50,10 @@ function deleteProject(id) {
 		.catch(error => {
 			console.log('error >>>', error);
 		});
+}
+
+function editProject(id) {
+	router.push(`/edit-project/${id}`);
 }
 
 onMounted(() => {

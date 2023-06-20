@@ -15,6 +15,8 @@
 				v-for="user in users"
 				:key="user.id"
 				:user="user"
+				@delete="deleteUser"
+				@edit="editUser"
 			/>
 		</ul>
 	</div>
@@ -48,6 +50,10 @@ function deleteUser(id) {
 		.catch(error => {
 			console.log('error >>>', error);
 		});
+}
+
+function editUser(id) {
+	router.push(`/edit-user/${id}`);
 }
 
 onMounted(() => {

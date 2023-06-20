@@ -1,6 +1,14 @@
 <template>
 	<div class="sidebar flex flex-col bg-neutral-800 text-white">
-		<div class="logo py-4 px-6 text-2xl font-bold mb-6">Logotype</div>
+		<div class="logo py-4 px-6 text-2xl font-bold mb-6">
+			<RouterLink class="flex gap-2 items-center hover:underline text-2xl" to="/">
+				<img
+					src="@/assets/img/logo.png"
+					class="w-12 h-12 rounded-md"
+				/>
+				<span>Gira</span>
+			</RouterLink>
+		</div>
 		<ul class="menu flex flex-col space-y-4">
 			<li v-for="link in links">
 				<RouterLink

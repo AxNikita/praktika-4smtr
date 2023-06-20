@@ -1,27 +1,33 @@
 <template>
 	<li @click="emitCreateRecord">
-		<div class="doctor-card bg-white rounded-lg p-4 shadow-md relative">
-			<!-- <h3 class="text-xl font-bold mb-2">{{ doctor.name }}</h3>
-			<p class="text-gray-600 mb-2"><strong>Отделение:</strong> {{ doctor.department }}</p>
-			<p class="text-gray-700 mb-2"><strong>Услуги:</strong> {{ doctor.services.join(', ') }}</p>
-			<p class="text-gray-700"><strong>Квалификация:</strong> {{ doctor.qualification }}</p>
+		<div
+			class="project-card bg-white rounded-lg p-4 shadow-md relative"
+			:class="{
+				'project-card--todo': project.status === 'TODO',
+				'project-card--in-progress': project.status === 'IN PROGRESS',
+				'project-card-done': project.status === 'DONE',
+			}"
+		>
+			<h3 class="text-xl font-bold mb-2">{{ project.title }}</h3>
+			<p class="text-gray-600 mb-2"><strong>Описание:</strong> {{ project.description }}</p>
+			<p class="text-gray-600 mb-2"><strong>Статус:</strong> {{ project.status }}</p>
 
-			<div class="absolute top-0 right-0 mt-2 mr-2 flex gap-2">
+			<div class="flex w-full mt-4 gap-4 items-center">
 				<button
-					v-if="isAdmin"
-					class="w-6 h-6 text-sm"
-					@click="$emit('edit', doctor.id)"
+					v-if="project.status !== 'DONE'"
+					class="w-full bg-blue-500 text-white py-1.5 rounded-md hover:bg-blue-600"
+					@click="$emit('edit', project.id)"
 				>
-					<i class="fa-solid fa-pencil"></i>
+					Редактировать
 				</button>
 				<button
-					v-if="isAdmin"
-					class="w-6 h-6 text-base"
-					@click="$emit('delete', doctor.id)"
+					v-if="project.users.length === 0"
+					class="w-full bg-red-500 text-white py-1.5 rounded-md hover:bg-red-600"
+					@click="$emit('delete', project.id)"
 				>
-					<i class="fa-solid fa-xmark"></i>
+					Удалить
 				</button>
-			</div> -->
+			</div>
 		</div>
 	</li>
 </template>
@@ -33,7 +39,18 @@ const props = defineProps(['project', 'isAdmin']);
 </script>
 
 <style scoped>
-.doctor-card {
-	border-left: 4px solid #4C556B;
+.project-card--todo {
+	border-left: 6px solid #4C556B;
+	border-right: 6px solid #4C556B;
+}
+
+.project-card--in-progress {
+	border-left: 6px solid #3f8610;
+	border-right: 6px solid #3f8610;
+}
+
+.project-card--done {
+	border-left: 6px solid #1446c5;
+	border-right: 6px solid #1446c5;
 }
 </style>

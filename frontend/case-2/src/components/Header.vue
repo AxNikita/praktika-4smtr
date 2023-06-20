@@ -1,7 +1,11 @@
 <template>
 	<header>
-		<RouterLink class="text-lg" to="/">
-			Книжное приложение
+		<RouterLink class="flex gap-2 items-center hover:underline text-2xl" to="/">
+			<img
+				src="@/assets/img/logo.png"
+				class="w-12 h-12 rounded-md"
+			/>
+			<span>Bookz</span>
 		</RouterLink>
 		<nav class="flex items-center">
 			<RouterLink

@@ -50,9 +50,9 @@
 						<div class="mt-2">
 							Выберите дату:
 							<select v-model="selectedDate">
-								<option :value="formatDate(date.setDate(date.getDate() + 1))">{{ formatDate(date) }}</option>
-								<option :value="formatDate(date.setDate(date.getDate() + 1))">{{ formatDate(date) }}</option>
-								<option :value="formatDate(date.setDate(date.getDate() + 1))">{{ formatDate(date) }}</option>
+								<option :value="getDate(1)">{{ getDate(1) }}</option>
+								<option :value="getDate(2)">{{ getDate(2) }}</option>
+								<option :value="getDate(3)">{{ getDate(3) }}</option>
 							</select>
 						</div>
 					</p>
@@ -143,7 +143,10 @@ function postDataRecord() {
 		});
 }
 
-function formatDate(date) {
+function getDate(number) {
+	let date = new Date();
+	date.setDate(date.getDay() + number);
+
 	const options = { day: '2-digit', month: '2-digit', year: 'numeric' };
 	const formattedDate = new Date(date).toLocaleDateString('ru-RU', options);
 

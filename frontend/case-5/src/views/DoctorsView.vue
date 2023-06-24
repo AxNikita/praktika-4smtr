@@ -122,7 +122,7 @@ function cancelCreateRecord() {
 function postDataRecord() {
 	const payload = {
 		patient: localStorage.getItem('login'),
-		doctor: selectedDoctor.value.name,
+		doctor: selectedDoctor.value.login,
 		name: selectedDoctor.value.name,
 		address: selectedDoctor.value.department,
 		service: selectedService.value,

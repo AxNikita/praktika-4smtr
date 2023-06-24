@@ -13,6 +13,7 @@
 					<th class="border-b text-left">Врач</th>
 					<th class="border-b text-left">Отделение</th>
 					<th class="border-b text-left">Услуга</th>
+					<th class="border-b text-left">Описание врача</th>
 				</tr>
 			</thead>
 			<tbody>
@@ -21,6 +22,7 @@
 					<td class="border-b">{{ record.doctor }}</td>
 					<td class="border-b">{{ record.address }}</td>
 					<td class="border-b">{{ record.service }}</td>
+					<td class="border-b">{{ record.description }}</td>
 				</tr>
 			</tbody>
 		</table>
